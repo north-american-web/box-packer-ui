@@ -1,38 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#000000"/>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <title>Box-Packing Tester by North American Web</title>
+</head>
+<body>
+<header id="site-header" class="bg-primary">
+    <h1>Box-Packing Tester</h1>
+    <h2 class="text-secondary">By <a href="https://www.northamericanweb.com">North American Web Company</a></h2>
+</header>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+<div class="container grid-lg">
+    <h2 class="mt-2">A simple box-packing tester user interface</h2>
+
+    <div class="accordion">
+        <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden>
+        <label class="accordion-header text-primary" for="accordion-1">
+            Instructions
+        </label>
+        <div class="accordion-body">
+            <h4>Let's Pack Some Boxes</h4>
+            <p>This is a simple tool for testing whether items will fit into a given set of containers (boxes).
+                Enter dimensions and (optionally) a description for each of your items and boxes, and the tool will
+                tell you whether all the items fit into all the boxes.</p>
+            <p>The &ldquo;<a href="https://en.wikipedia.org/wiki/Bin_packing_problem" target="_blank">bin
+                packing problem</a>&rdquo; applies here. While this tool doesn't guarantee an optimal solution
+                (i.e., for some combinations of items and boxes, it will falsely claim the items don't fit), but it
+                is fast and probably good-enough for most purposes.</p>
+
+            <h5>How to use</h5>
+            <p>An item or box's specs should be entered in the following format: <code>width, length, height,
+                description</code>. Note that the values should be comma separated and the order of the
+                dimensions doesn't matter. In fact, the tool will re-order in descending order regardless.</p>
+            <p>Descriptions are optional.</p>
+            <blockquote>
+                <p>
+                    <em>Example</em> <code>6,8,3</code><br/>
+                    <em>Example</em> <code>4.5, 4.2, 1, Random thing #1</code>
+                </p>
+            </blockquote>
+        </div>
+    </div>
+
+</div>
+
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+</body>
 </html>

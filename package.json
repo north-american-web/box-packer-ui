@@ -1,11 +1,22 @@
 {
-  "name": "boxpackerui",
+  "name": "nawebco/box-packer-ui",
   "version": "0.1.0",
-  "private": true,
+  "authors": [
+    {
+      "name": "David Kidd",
+      "role": "Developer"
+    }
+  ],
+  "license": "MIT",
+  "private": false,
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-icons": "^3.7.0",
+    "react-scripts": "3.0.1",
+    "spectre.css": "^0.5.8"
   },
   "scripts": {
     "start": "react-scripts start",
