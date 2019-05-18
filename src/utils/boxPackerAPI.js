@@ -1,4 +1,4 @@
-const API_URL = 'http://dev.boxpackerapi.northamericanweb.com/v1/packing_attempt';
+const API_URL = 'https://boxpackerapi.northamericanweb.com/v1/packing_attempt';
 
 export function attemptPack({items, boxes}){
     return fetch(API_URL, {
