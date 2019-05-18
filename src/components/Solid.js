@@ -63,6 +63,13 @@ SolidInputForm.propTypes = {
 }
 
 export class SolidInput extends React.Component {
+    static propTypes = {
+        inputKey: PropTypes.string.isRequired,
+        onSubmit: PropTypes.func.isRequired,
+        onRemove: PropTypes.func.isRequired,
+        onNext: PropTypes.func,
+        isDataValid: PropTypes.func.isRequired
+    }
 
     state = {
         width: 0,
@@ -174,12 +181,4 @@ export class SolidInput extends React.Component {
             />
         )
     }
-}
-
-SolidInput.propTypes = {
-    inputKey: PropTypes.string.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired,
-    onNext: PropTypes.func,
-    isDataValid: PropTypes.func.isRequired
 }
