@@ -5,6 +5,52 @@ import {attemptPack} from './utils/boxPackerAPI'
 import {Panel, Toast} from './components/Spectre'
 import {FillProgress, PackingResults } from './components/PackingResults'
 
+function AppInterface({ onBoxInputsChange, onItemInputsChange, boxVolume, itemVolume, apiResults, error }){
+    return (
+        <div className="App container grid-lg">
+            {boxVolume > 0 && (
+                <Panel
+                    title='Container fill progress by volume'
+                    footer={ <small className="text-gray">Remember, this is just volume!</small>}
+                >
+                    <FillProgress
+                        percent={itemVolume === 0 ? 0 : (itemVolume / boxVolume) * 100}
+                    />
+                </Panel>
+            )}
+
+            <div className='input-manager mt-2'>
+                <div className="columns">
+                    <div className="column col-md-6">
+                        <SolidInputManager
+                            title='Boxes'
+                            onChange={onBoxInputsChange}
+                        />
+                    </div>
+                    <div className="column col-md-12">
+                        <SolidInputManager
+                            title='Items'
+                            onChange={onItemInputsChange}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {error && (
+                <Toast status='error'>{error}</Toast>
+            )}
+
+            {apiResults && (
+                <PackingResults
+                    success={apiResults.success}
+                    packed={apiResults.packed}
+                    empty={apiResults.empty}
+                    leftOverItems={apiResults.leftOverItems}/>
+            )}
+        </div>
+    )
+}
+
 class App extends React.Component {
     state = {
         boxes: [],
@@ -63,48 +109,14 @@ class App extends React.Component {
         const boxVolume = this.getSolidsVolume('boxes')
 
         return (
-            <div className="App container grid-lg">
-                {this.getSolidsVolume('boxes') > 0 && (
-                    <Panel
-                        title='Container fill progress by volume'
-                        footer={ <small className="text-gray">Remember, this is just volume!</small>}
-                        >
-                        <FillProgress
-                            percent={itemVolume === 0 ? 0 : (itemVolume / boxVolume) * 100}
-                        />
-                    </Panel>
-                )}
-
-                <div className='input-manager mt-2'>
-                    <div className="columns">
-                        <div className="column col-md-6">
-                            <SolidInputManager
-                                title='Boxes'
-                                onChange={(data) => this.handleChange('boxes', data)}
-                            />
-                        </div>
-                        <div className="column col-md-12">
-                            <SolidInputManager
-                                title='Items'
-                                onChange={(data) => this.handleChange('items', data)}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                {this.state.error && (
-                    <Toast status='error'>{this.state.error}</Toast>
-                )}
-
-                {this.state.apiResults && (
-                    <PackingResults
-                        success={this.state.apiResults.success}
-                        packed={this.state.apiResults.packed}
-                        empty={this.state.apiResults.empty}
-                        leftOverItems={this.state.apiResults.leftOverItems}/>
-                )}
-
-            </div>
+            <AppInterface
+                onBoxInputsChange={(data) => this.handleChange('boxes', data)}
+                onItemInputsChange={(data) => this.handleChange('items', data)}
+                itemVolume={itemVolume}
+                boxVolume={boxVolume}
+                apiResults={this.state.apiResults}
+                error={this.state.error}
+            />
         );
     }
 }
