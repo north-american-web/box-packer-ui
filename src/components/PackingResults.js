@@ -17,6 +17,9 @@ function PackingResultsSegment({ title, solids }){
                         </SolidPreview>
                     </li>
                 ))}
+                {solids.length === 0 && (
+                    <p className="text-gray">Nothing here.</p>
+                )}
             </ul>
         </>
     )
@@ -35,21 +38,21 @@ export function PackingResults({success, packed = [], empty = [], leftOverItems 
             </Toast>
 
             <div className="columns mt-2">
-                <div className="column col-md-4">
+                <div className="column col-md-12 col-4">
                     <PackingResultsSegment
                         title='Packed boxes'
                         solids={packed}
                     />
                 </div>
 
-                <div className="column col-md-4">
+                <div className="column col-md-12 col-4">
                     <PackingResultsSegment
                         title='Empty boxes'
                         solids={empty}
                     />
                 </div>
 
-                <div className="column col-md-4">
+                <div className="column col-md-12 col-4">
                     <PackingResultsSegment
                         title='Left-over items'
                         solids={leftOverItems}

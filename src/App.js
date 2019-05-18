@@ -21,13 +21,13 @@ function AppInterface({ onBoxInputsChange, onItemInputsChange, boxVolume, itemVo
 
             <div className='input-manager mt-2'>
                 <div className="columns">
-                    <div className="column col-md-6">
+                    <div className="column col-sm-12 col-6">
                         <SolidInputManager
                             title='Boxes'
                             onChange={onBoxInputsChange}
                         />
                     </div>
-                    <div className="column col-md-12">
+                    <div className="column col-sm-12 col-6">
                         <SolidInputManager
                             title='Items'
                             onChange={onItemInputsChange}
