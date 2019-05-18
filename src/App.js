@@ -1,84 +1,9 @@
-import React from 'react';
-import './App.css';
+import React from 'react'
+import './App.css'
 import SolidInputManager from './components/SolidInputManager'
-import {SolidPreview} from "./components/Solid"
 import {attemptPack} from './utils/boxPackerAPI'
-
-function PackingResults({success, packed = [], empty = [], leftOverItems = []}) {
-    return (
-        <div className="panel mt-2">
-            <div className="panel-header">
-                <div className="panel-title">Results</div>
-            </div>
-
-            <div className="panel-body">
-                <div className={`toast toast-${success ? 'success' : 'error'}`}>
-                    The item(s) {success ? '' : 'won\'t'} fit into the box(es)!
-                </div>
-
-                <div className="columns mt-2">
-                    <div className="column col-md-4">
-                        <h6>Packed boxes</h6>
-                        <ul>
-                            {packed.map((box) => (
-                                <li>
-                                    <SolidPreview fallbackDescription='Box' solid={box}>
-                                        {box.contents.map((item) => (
-                                            <SolidPreview fallbackDescription='Item' solid={item}/>
-                                        ))}
-                                    </SolidPreview>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="column col-md-4">
-                        <h6>Empty boxes</h6>
-                        <ul>
-                            {empty.map((item) => (
-                                <li><SolidPreview fallbackDescription='Box' solid={item}/></li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="column col-md-4">
-                        <h6>Left-over items</h6>
-                        <ul>
-                            {leftOverItems.map((item) => (
-                                <li><SolidPreview fallbackDescription='Item' solid={item}/></li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
-
-function FillProgress({percent}) {
-    const classNameExtra = percent > 100
-        ? 'bg-error'
-        : percent > 90 ? 'bg-warning' : ''
-    return (
-        <>
-            <div className="bar bar-sm">
-                <div
-                    className={`bar-item ${classNameExtra}`}
-                    role="progressbar"
-                    style={{width: `${percent}%`}}
-                    aria-valuenow={percent} aria-valuemin="0"
-                    aria-valuemax="100"
-                ></div>
-            </div>
-            { percent > 100 && (
-                <div className="toast toast-error">
-                    The volume of the items exceeds the volume of the container(s). The packing algorithm will not be run.
-                </div>
-            )}
-        </>
-    )
-}
-
+import {Panel, Toast} from './components/Spectre'
+import {FillProgress, PackingResults } from './components/PackingResults'
 
 class App extends React.Component {
     state = {
@@ -139,19 +64,15 @@ class App extends React.Component {
 
         return (
             <div className="App container grid-lg">
-
                 {this.getSolidsVolume('boxes') > 0 && (
-                    <div className="panel mt-2">
-                        <div className="panel-header">Container fill progress by volume</div>
-                        <div className="panel-body">
-                            <FillProgress
-                                percent={itemVolume === 0 ? 0 : (itemVolume / boxVolume) * 100}
-                            />
-                        </div>
-                        <div className="panel-footer">
-                            <small className="text-gray">Remember, this is just volume!</small>
-                        </div>
-                    </div>
+                    <Panel
+                        title='Container fill progress by volume'
+                        footer={ <small className="text-gray">Remember, this is just volume!</small>}
+                        >
+                        <FillProgress
+                            percent={itemVolume === 0 ? 0 : (itemVolume / boxVolume) * 100}
+                        />
+                    </Panel>
                 )}
 
                 <div className='input-manager mt-2'>
@@ -160,23 +81,19 @@ class App extends React.Component {
                             <SolidInputManager
                                 title='Boxes'
                                 onChange={(data) => this.handleChange('boxes', data)}
-                                solids={this.state.boxes}
                             />
                         </div>
-                        {boxVolume > 0 && (
-                            <div className="column col-md-12">
-                                <SolidInputManager
-                                    title='Items'
-                                    onChange={(data) => this.handleChange('items', data)}
-                                    solids={this.state.items}
-                                />
-                            </div>
-                        )}
+                        <div className="column col-md-12">
+                            <SolidInputManager
+                                title='Items'
+                                onChange={(data) => this.handleChange('items', data)}
+                            />
+                        </div>
                     </div>
                 </div>
 
                 {this.state.error && (
-                    <div className="toast toast-error">{this.state.error}</div>
+                    <Toast status='error'>{this.state.error}</Toast>
                 )}
 
                 {this.state.apiResults && (

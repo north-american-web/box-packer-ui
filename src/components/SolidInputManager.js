@@ -1,8 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import {SolidInput} from "./Solid";
+import {Panel} from './Spectre'
+
+function SolidInputManagerInterface({ title, children, inputs, showAddBtn, addClickHandler }){
+    return (
+        <Panel
+            title={title}
+            footer={showAddBtn && (
+                <button className='btn btn-primary btn-sm' onClick={addClickHandler}>+</button>
+            )}
+        >
+            {children}
+            {inputs}
+        </Panel>
+    )
+}
+
 
 export class SolidInputManager extends React.Component {
+    static propTypes = {
+        title: PropTypes.string.isRequired,
+        onChange: PropTypes.func.isRequired
+    }
+
     state = {
         inputsData: new Map()
     }
@@ -58,7 +79,6 @@ export class SolidInputManager extends React.Component {
 
     render() {
         const solidInputs = []
-        let inputsCount = 0
 
         this.state.inputsData.forEach((value, key) => {
             solidInputs.push(<SolidInput
@@ -66,41 +86,22 @@ export class SolidInputManager extends React.Component {
                 inputKey={key}
                 onSubmit={this.handleInputSubmit}
                 onNext={this.handleInputNext}
-                onRemove={
-                    inputsCount++ > 0
-                        ? () => {
-                            this.handleInputRemove(key)
-                        }
-                        : undefined
-                }
+                onRemove={() => { this.handleInputRemove(key) }}
                 isDataValid={this.isDataValid}
             />)
         })
 
         return (
-            <div className="panel">
-                <div className="panel-header">
-                    <div className="panel-title">{this.props.title}</div>
-                </div>
-                <div className="panel-body">
-                    {this.props.children}
-
-                    {solidInputs}
-                </div>
-                <div className="panel-footer">
-                    {this.state.inputsData.size === this.getValidSolids().length && (
-                        <button className='btn btn-primary btn-sm' onClick={this.addInput}>+</button>
-                    )}
-                </div>
-            </div>
-
+            <SolidInputManagerInterface
+                title={this.props.title}
+                children={this.props.children}
+                inputs={solidInputs}
+                showAddBtn={this.state.inputsData.size === this.getValidSolids().length}
+                addClickHandler={() => {this.addInput()}}
+            />
         )
     }
 }
 
-SolidInputManager.propTypes = {
-    title: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired
-}
 
 export default SolidInputManager;

@@ -2,25 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import {FaTrash} from 'react-icons/fa'
 
-export class SolidPreview extends React.Component {
-    render() {
-        const solid = this.props.solid
-
-        return (
-            <React.Fragment>
-                {solid.description ? solid.description : this.props.fallbackDescription}
-                &nbsp;({solid.width}x{solid.length}x{solid.height})
-                { this.props.children && (
-                    <ul className="solid-preview__children">
-                        {this.props.children.map( (child) => (
-                            <li>{child}</li>
-                        ))}
-                    </ul>
-                )}
-            </React.Fragment>
-        )
-    }
-
+export function SolidPreview({ solid, fallbackDescription, children }){
+    return (
+        <>
+            {solid.description ? solid.description : fallbackDescription}
+            &nbsp;({solid.width}x{solid.length}x{solid.height})
+            { children && (
+                <ul className="solid-preview__children">
+                    {children.map( (child, index) => (
+                        <li key={index}>{child}</li>
+                    ))}
+                </ul>
+            )}
+        </>
+    )
 }
 
 SolidPreview.propTypes = {
@@ -28,13 +23,45 @@ SolidPreview.propTypes = {
     fallbackDescription: PropTypes.string.isRequired
 }
 
-/**
- * Provides a UI for defining a solid (i.e. a 3d shape + description)
- *
- * Some notes about this class:
- *
- *
- */
+
+function SolidInputForm({ isInputValid, inputKey, onSubmit, onInputFieldChange, inputFieldRef, onRemove }){
+    return (
+        <form className='solid-input__form' onSubmit={onSubmit}>
+            <div className="form-group">
+                <div className="input-group">
+                    <input
+                        className={
+                            `solid-input__input form-input ${isInputValid && 'is-error' }`
+                        }
+                        id={`solid-input_${inputKey}`}
+                        type='text'
+                        placeholder='width, length, height, description'
+                        autoComplete='off'
+                        onChange={onInputFieldChange}
+                        ref={inputFieldRef}
+                    />
+                    <button
+                        className='btn btn-default input-group-btn'
+                        type='button'
+                        onClick={onRemove}
+                    >
+                        <FaTrash size={16}/>
+                    </button>
+                </div>
+            </div>
+        </form>
+    )
+}
+
+SolidInputForm.propTypes = {
+    inputKey: PropTypes.string.isRequired,
+    inputFieldRef: PropTypes.object.isRequired,
+    isInputValid: PropTypes.bool.isRequired,
+    onRemove: PropTypes.func.isRequired,
+    onInputFieldChange: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
+}
+
 export class SolidInput extends React.Component {
 
     state = {
@@ -79,7 +106,7 @@ export class SolidInput extends React.Component {
 
         this.handleInputFieldChangesComplete()
 
-        if (this.props.onNext) {
+        if (this.props.hasOwnProperty('onNext')) {
             this.props.onNext()
         }
     }
@@ -129,7 +156,7 @@ export class SolidInput extends React.Component {
     }
 
     isValid = (data) => {
-        if (typeof this.props.isDataValid === 'function') {
+        if ( this.props.hasOwnProperty('isDataValid') ) {
             return this.props.isDataValid(data)
         }
         return false
@@ -137,33 +164,14 @@ export class SolidInput extends React.Component {
 
     render() {
         return (
-            <form className='solid-input__form' onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                    <div className="input-group">
-                        <input
-                            className={
-                                `solid-input__input form-input ${ 
-                                    (this.inputField.current && this.inputField.current.value !== '')
-                                    && !this.isValid(this.state) && 'is-error' }`
-                            }
-                            id={`solid-input_${this.props.inputKey}`}
-                            type='text'
-                            placeholder='width, length, height, description'
-                            autoComplete='off'
-                            onChange={this.handleInputFieldChange}
-                            ref={this.inputField}
-                        />
-                        <button
-                            className='btn btn-default input-group-btn'
-                            type='button'
-                            onClick={this.handleRemove}
-                        >
-                            <FaTrash size={16}/>
-                        </button>
-                    </div>
-
-                </div>
-            </form>
+            <SolidInputForm
+                inputFieldRef={this.inputField}
+                inputKey={`solid-input_${this.props.inputKey}`}
+                isInputValid={!!(this.inputField.current && this.inputField.current.value !== '' && !this.isValid(this.state))}
+                onRemove={this.handleRemove}
+                onInputFieldChange={this.handleInputFieldChange}
+                onSubmit={this.handleSubmit}
+            />
         )
     }
 }
@@ -171,7 +179,7 @@ export class SolidInput extends React.Component {
 SolidInput.propTypes = {
     inputKey: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onRemove: PropTypes.func,
+    onRemove: PropTypes.func.isRequired,
     onNext: PropTypes.func,
-    isDataValid: PropTypes.func
+    isDataValid: PropTypes.func.isRequired
 }
