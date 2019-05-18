@@ -94,7 +94,6 @@ export class SolidInputManager extends React.Component {
         return (
             <SolidInputManagerInterface
                 title={this.props.title}
-                children={this.props.children}
                 inputs={solidInputs}
                 showAddBtn={this.state.inputsData.size === this.getValidSolids().length}
                 addClickHandler={() => {this.addInput()}}
