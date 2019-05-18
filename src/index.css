@@ -1,16 +1,30 @@
-#site-header {
+body {
+  display:flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.main-content {
+  flex:1;
+}
+
+.main-footer {
+  padding:1rem 1rem 0;
+}
+
+.site-header {
   display:flex;
   justify-content: space-between;
   align-items: center;
   padding:.5rem 1rem;
 }
 
-#site-header h1 {
+.site-header h1 {
   font-size:26px;
   margin:0;
 }
 
-#site-header h2 {
+.site-header h2 {
   font-size:.75rem;
   margin:0;
 }

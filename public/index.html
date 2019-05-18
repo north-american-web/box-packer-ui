@@ -12,44 +12,61 @@
     <title>Box-Packing Tester by North American Web</title>
 </head>
 <body>
-<header id="site-header" class="bg-primary">
-    <h1>Box-Packing Tester</h1>
-    <h2 class="text-secondary">By <a href="https://www.northamericanweb.com">North American Web Company</a></h2>
-</header>
+<main class="main-content">
+    <header class="site-header bg-primary">
+        <h1>Box-Packing Tester</h1>
+        <h2 class="text-secondary">By <a href="https://www.northamericanweb.com">North American Web Company</a></h2>
+    </header>
 
-<div class="container grid-lg">
-    <h2 class="mt-2">A simple box-packing tester</h2>
+    <div class="container grid-lg">
+        <h2 class="mt-2">A simple box-packing tester</h2>
 
-    <div class="accordion">
-        <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden>
-        <label class="accordion-header text-primary" for="accordion-1">
-            Instructions
-        </label>
-        <div class="accordion-body">
-            <h4>Let's Pack Some Boxes</h4>
-            <p>This is a simple tool for testing whether items will fit into a given set of containers (boxes).
-                Enter dimensions and (optionally) a description for each of your items and boxes, and the tool will
-                tell you whether all the items fit into all the boxes.</p>
-            <p>The &ldquo;<a href="https://en.wikipedia.org/wiki/Bin_packing_problem" target="_blank">bin
-                packing problem</a>&rdquo; applies here. While this tool doesn't guarantee an optimal solution
-                (i.e., for some combinations of items and boxes, it will falsely claim the items don't fit), but it
-                is fast and probably good-enough for most purposes.</p>
+        <noscript>
+            <div class="text-warning">You need to enable JavaScript to run this app.</div>
+        </noscript>
 
-            <h5>How to use</h5>
-            <p>An item or box's specs should be entered in the following format: <code>width, length, height,
-                description</code>. Values must be comma-separated and descriptions are optional.</p>
-            <blockquote>
-                <p>
-                    <em>Example</em> <code>6,8,3</code><br/>
-                    <em>Example</em> <code>4.5, 4.2, 1, Random thing #1</code>
-                </p>
-            </blockquote>
+        <div class="accordion">
+            <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden>
+            <label class="accordion-header text-primary" for="accordion-1">
+                Instructions
+            </label>
+            <div class="accordion-body">
+                <h4>Let's Pack Some Boxes</h4>
+                <p>This is a simple tool for testing whether items will fit into a given set of containers (boxes).
+                    Enter dimensions and (optionally) a description for each of your items and boxes, and the tool will
+                    tell you whether all the items fit into all the boxes.</p>
+                <p>The &ldquo;<a href="https://en.wikipedia.org/wiki/Bin_packing_problem" target="_blank">bin
+                    packing problem</a>&rdquo; applies here. While this tool doesn't guarantee an optimal solution
+                    (i.e., for some combinations of items and boxes, it will falsely claim the items don't fit), but it
+                    is fast and probably good-enough for most purposes.</p>
+
+                <h5>How to use</h5>
+                <p>An item or box's specs should be entered in the following format: <code>width, length, height,
+                    description</code>. Values must be comma-separated and descriptions are optional.</p>
+                <blockquote>
+                    <p>
+                        <em>Example</em> <code>6,8,3</code><br/>
+                        <em>Example</em> <code>4.5, 4.2, 1, Random thing #1</code>
+                    </p>
+                </blockquote>
+            </div>
         </div>
+
     </div>
 
-</div>
 
-<noscript>You need to enable JavaScript to run this app.</noscript>
-<div id="root"></div>
+    <div id="root"></div>
+
+
+</main>
+<footer class="main-footer bg-gray">
+    <p>Fork <a href="https://github.com/north-american-web/box-packer-ui" target="_blank">this
+        project</a>,
+        the <a href="https://github.com/north-american-web/box-packer-api" target="_blank">Box Packer API</a>, or
+        the <a href="https://github.com/north-american-web/box-packer" target="_blank">Box Packer Composer
+            package</a>
+        on GitHub.</p>
+</footer>
+
 </body>
 </html>
