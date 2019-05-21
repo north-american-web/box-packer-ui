@@ -9,22 +9,59 @@ body {
 }
 
 .main-footer {
-  padding:1rem 1rem 0;
+  padding:0 1rem;
+  color:#888;
+  text-align:right;
+  height:3rem;
+}
+
+.main-footer p {
+  margin-bottom:0;
 }
 
 .site-header {
   display:flex;
   justify-content: space-between;
   align-items: center;
-  padding:.5rem 1rem;
+  padding:0 1rem;
 }
 
 .site-header h1 {
   font-size:26px;
   margin:0;
+  height:3rem;
 }
 
 .site-header h2 {
   font-size:.75rem;
   margin:0;
 }
+
+#root {
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+}
+
+.App {
+  position:relative;
+}
+
+.instructions-toggle {
+  position:absolute;
+  right: 30px;
+  top:24px;
+}
+
+.app-content {
+  min-height: calc(100vh - 6rem);
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+}
+
+/*.btn.btn-primary {*/
+/*  background:#fff;*/
+/*  border-color:#fff;*/
+/*  color:#a00;*/
+/*}*/
