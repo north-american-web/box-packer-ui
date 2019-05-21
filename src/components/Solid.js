@@ -23,7 +23,6 @@ SolidPreview.propTypes = {
     fallbackDescription: PropTypes.string.isRequired
 }
 
-
 function SolidInputForm({ isInputValid, inputKey, onSubmit, onInputFieldChange, inputFieldRef, onRemove }){
     return (
         <form className='solid-input__form' onSubmit={onSubmit}>

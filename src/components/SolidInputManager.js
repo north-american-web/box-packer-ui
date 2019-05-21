@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {SolidInput} from "./Solid";
 import {Panel} from './Spectre'
 
-function SolidInputManagerInterface({ title, children, inputs, showAddBtn, addClickHandler }){
+function SolidInputManagerInterface({title, inputs, showAddBtn, addClickHandler}) {
     return (
         <Panel
             title={title}
@@ -11,12 +11,16 @@ function SolidInputManagerInterface({ title, children, inputs, showAddBtn, addCl
                 <button className='btn btn-primary btn-sm' onClick={addClickHandler}>+</button>
             )}
         >
-            {children}
             {inputs}
         </Panel>
     )
 }
-
+SolidInputManagerInterface.propTypes = {
+    title: PropTypes.string.isRequired,
+    inputs: PropTypes.array.isRequired,
+    showAddBtn: PropTypes.bool.isRequired,
+    addClickHandler: PropTypes.func.isRequired
+}
 
 export class SolidInputManager extends React.Component {
     static propTypes = {
@@ -24,43 +28,48 @@ export class SolidInputManager extends React.Component {
         onChange: PropTypes.func.isRequired
     }
 
-    state = {
-        inputsData: new Map()
+    constructor(props){
+        super(props)
+
+        this.state = {
+            solids: new Map([this.generateNewInputSpecs()])
+        }
     }
 
     // Used to ensure item ids are always unique
     childIterator = 1
 
-    componentDidMount() {
-        this.addInput()
+    generateNewInputSpecs = () => {
+        const id = `bi_${Date.now()}_${this.childIterator++}`;
+        return [id, {}]
     }
 
     addInput = () => {
-        const id = `bi_${Date.now()}_${this.childIterator++}`;
-        this.setState(({inputsData}) => {
-            inputsData.set(id, {})
-            return {inputsData}
+        const [id, data] = this.generateNewInputSpecs()
+        this.setState(({solids}) => {
+            solids.set(id, data)
+            return {solids}
         })
     }
 
     handleInputNext = () => {
-        if (this.state.inputsData.size === this.getValidSolids().length) {
+        if (this.state.solids.size === this.getValidSolids().length) {
             this.addInput()
         }
     }
 
     handleInputRemove = (key) => {
-        let {inputsData} = this.state
-        inputsData.size > 1 ? inputsData.delete(key) : inputsData.set(key, {});
-        this.setState({inputsData}, () => {
+        let {solids} = this.state
+        solids.size > 1 ? solids.delete(key) : solids.set(key, {});
+        this.setState({solids}, () => {
             this._onChange()
         })
     }
 
     handleInputSubmit = (key, data) => {
-        const {inputsData} = this.state
-        inputsData.set(key, data)
-        this.setState({inputsData}, () => {
+        const {solids} = this.state
+        solids.set(key, data)
+        this.setState({solids}, () => {
             this._onChange()
         })
     }
@@ -69,8 +78,12 @@ export class SolidInputManager extends React.Component {
         this.props.onChange(this.getValidSolids())
     }
 
+    /**
+     *
+     * @returns {V[]}
+     */
     getValidSolids = () => {
-        return Array.from(this.state.inputsData.values()).filter((solid) => this.isDataValid(solid))
+        return Array.from(this.state.solids.values()).filter(solid => this.isDataValid(solid))
     }
 
     isDataValid = ({width, length, height}) => {
@@ -80,13 +93,15 @@ export class SolidInputManager extends React.Component {
     render() {
         const solidInputs = []
 
-        this.state.inputsData.forEach((value, key) => {
+        this.state.solids.forEach((value, key) => {
             solidInputs.push(<SolidInput
                 key={key}
                 inputKey={key}
                 onSubmit={this.handleInputSubmit}
                 onNext={this.handleInputNext}
-                onRemove={() => { this.handleInputRemove(key) }}
+                onRemove={() => {
+                    this.handleInputRemove(key)
+                }}
                 isDataValid={this.isDataValid}
             />)
         })
@@ -95,8 +110,10 @@ export class SolidInputManager extends React.Component {
             <SolidInputManagerInterface
                 title={this.props.title}
                 inputs={solidInputs}
-                showAddBtn={this.state.inputsData.size === this.getValidSolids().length}
-                addClickHandler={() => {this.addInput()}}
+                showAddBtn={this.state.solids.size === this.getValidSolids().length}
+                addClickHandler={() => {
+                    this.addInput()
+                }}
             />
         )
     }
