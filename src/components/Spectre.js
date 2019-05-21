@@ -2,7 +2,7 @@ import React from 'react'
 
 export function Panel({title, footer, children}){
     return (
-        <div className="panel">
+        <div className="panel mt-2">
             <div className="panel-header">
                 <div className="panel-title">{title}</div>
             </div>
