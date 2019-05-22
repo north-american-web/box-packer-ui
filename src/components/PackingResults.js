@@ -3,14 +3,14 @@ import {SolidPreview} from "./Solid";
 import PropTypes from "prop-types";
 import {Bar, Panel, Toast} from "./Spectre";
 
-function PackingResultsSegment({ title, solids }){
+function PackingResultsSegment({ title, solids, fallbackDescription = 'Box' }){
     return (
         <>
             <h6>{title}</h6>
             <ul>
                 {solids.map((solid, index) => (
                     <li key={index}>
-                        <SolidPreview fallbackDescription='Box' solid={solid}>
+                        <SolidPreview fallbackDescription={fallbackDescription} solid={solid}>
                             {solid.hasOwnProperty('contents') && solid.contents.map((item, index) => (
                                 <SolidPreview key={index} fallbackDescription='Item' solid={item}/>
                             ))}
@@ -56,6 +56,7 @@ export function PackingResults({success, packed = [], empty = [], leftOverItems 
                     <PackingResultsSegment
                         title='Left-over items'
                         solids={leftOverItems}
+                        fallbackDescription='Item'
                     />
                 </div>
             </div>
