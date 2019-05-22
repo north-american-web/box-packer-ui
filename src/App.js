@@ -154,7 +154,8 @@ class App extends React.Component {
         attemptPack(this.state)
             .then((data) => {
                 this.setState({
-                    apiResults: data
+                    apiResults: data,
+                    error: false
                 })
             })
             .catch((error) => {
