@@ -52,8 +52,8 @@ export default class Instructions extends React.Component {
                                                 <p>An item or box's specs should be entered in the following format: <code>width,
                                                     length,
                                                     height,
-                                                    description</code>. Values must be comma-separated and descriptions are
-                                                    optional.</p>
+                                                    description</code>. Omit units. Values must be comma-separated and descriptions are
+                                                    optional. Numbers must be greater than 0 and less than 999999999. </p>
                                                 <blockquote>
                                                     <p>
                                                         <em>Example 1:</em> <code>6,8,3</code><br/>

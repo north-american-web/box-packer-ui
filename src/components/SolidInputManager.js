@@ -11,6 +11,7 @@ function SolidInputManagerInterface({title, inputs, showAddBtn, addClickHandler}
                 <button className='btn btn-primary btn-sm' onClick={addClickHandler}>+</button>
             )}
         >
+            <small className="text-dark">Enter width, length, height, (optional) description. No units.</small>
             {inputs}
         </Panel>
     )
@@ -87,7 +88,11 @@ export class SolidInputManager extends React.Component {
     }
 
     isDataValid = ({width, length, height}) => {
-        return (width > 0 && length > 0 && height > 0)
+        const MAX = 999999999 // This is arbitrary
+
+        return (width > 0 && width < MAX
+            && length > 0 && length < MAX
+            && height > 0 && height < MAX )
     }
 
     render() {
