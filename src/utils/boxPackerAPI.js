@@ -1,7 +1,5 @@
-const API_URL = 'https://boxpackerapi.northamericanweb.com/v1/packing_attempt';
-
 export function attemptPack({items, boxes}){
-    return fetch(API_URL, {
+    return fetch(process.env.REACT_APP_API_URL, {
             method: 'POST',
             mode: 'cors',
             headers: {

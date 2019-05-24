@@ -1,87 +1,11 @@
 import React from 'react'
 import './App.css'
+import PropTypes from 'prop-types'
 import SolidInputManager from './components/SolidInputManager'
 import {attemptPack} from './utils/boxPackerAPI'
 import {Toast} from './components/Spectre'
 import {PackingResults} from './components/PackingResults'
-import {FaQuestionCircle} from "react-icons/fa";
-
-class Instructions extends React.Component {
-    state = {
-        showInstructions: false
-    }
-
-    handleShowInstructions = (e) => {
-        e.preventDefault()
-        this.setState({
-            showInstructions: true
-        })
-    }
-
-    handleHideInstructions = (e) => {
-        e.preventDefault()
-        this.setState({
-            showInstructions: false
-        })
-    }
-
-    render() {
-        return (
-            <React.Fragment>
-                {this.state.showInstructions ? (
-                        <div className='container grid-lg'>
-                            <div className={`modal ${this.state.showInstructions && 'active'}`}>
-                                <a href="#close" className="modal-overlay" aria-label="Close"
-                                   onClick={this.handleHideInstructions}/>
-                                <div className="modal-container">
-                                    <div className="modal-header">
-                                        <a href="#close" className="btn btn-clear float-right"
-                                           onClick={this.handleHideInstructions} aria-label="Close"/>
-                                        <div className="modal-title h5">Help</div>
-                                    </div>
-                                    <div className="modal-body">
-                                        <div className="content">
-                                            <div className="instructions">
-                                                <p>This is a simple tool for testing whether items will fit into a given
-                                                    set of containers (boxes). Enter dimensions and (optionally) a
-                                                    description for each of your items and boxes, and the tool will tell
-                                                    you whether all the items fit into all the boxes.</p>
-                                                <p>The &ldquo;<a href="https://en.wikipedia.org/wiki/Bin_packing_problem"
-                                                                 target="_blank" rel='noopener noreferrer'>bin
-                                                    packing problem</a>&rdquo; applies here. This tool doesn't
-                                                    guarantee an optimal solution (i.e., for some combinations of items
-                                                    and boxes, it will falsely claim the items don't fit), but it
-                                                    is fast and good-enough for most purposes.</p>
-
-                                                <h5>How to use</h5>
-                                                <p>An item or box's specs should be entered in the following format: <code>width,
-                                                    length,
-                                                    height,
-                                                    description</code>. Values must be comma-separated and descriptions are
-                                                    optional.</p>
-                                                <blockquote>
-                                                    <p>
-                                                        <em>Example 1:</em> <code>6,8,3</code><br/>
-                                                        <em>Example 2:</em> <code>4.5, 4.2, 1, Random thing #1</code>
-                                                    </p>
-                                                </blockquote>
-                                                <a className="btn btn-link"
-                                                   onClick={this.handleHideInstructions}>Dismiss</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                    : (
-                        <a className='instructions-toggle' onClick={this.handleShowInstructions}><FaQuestionCircle
-                            size={22}/></a>
-                    )}
-            </React.Fragment>
-        )
-    }
-}
+import Instructions from './components/Instructions'
 
 function AppInterface({onBoxInputsChange, onItemInputsChange, apiResults, error, showInstructions, handleShowInstructions, handleHideInstructions}) {
     return (
@@ -157,6 +81,11 @@ class App extends React.Component {
                     apiResults: data,
                     error: false
                 })
+
+                this._onEvent({
+                    category: 'Packing attempt',
+                    action: 'Received API response'
+                })
             })
             .catch((error) => {
                 console.warn('Error fetching packing attempt results: ', error)
@@ -164,7 +93,18 @@ class App extends React.Component {
                 this.setState({
                     error: `There was an error fetching packing attempt results.`
                 })
+
+                this._onEvent({
+                    category: 'API Error',
+                    action: 'API call failed'
+                })
             })
+    }
+
+    _onEvent = (event) => {
+        if( this.props.onEvent ){
+            this.props.onEvent(event)
+        }
     }
 
     render() {
@@ -182,6 +122,10 @@ class App extends React.Component {
             />
         );
     }
+}
+
+App.propTypes = {
+    onEvent: PropTypes.func
 }
 
 export default App;
