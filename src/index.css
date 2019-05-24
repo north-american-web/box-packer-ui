@@ -27,6 +27,16 @@ body {
   height:3rem;
 }
 
+@media only screen and (max-width: 719px) {
+  .site-header {
+    display:block;
+  }
+
+  .site-header h1 {
+    padding-top:4px
+  }
+}
+
 .site-header h1 {
   font-size:26px;
   margin:0;
@@ -59,9 +69,3 @@ body {
   flex-direction:column;
   justify-content: center;
 }
-
-/*.btn.btn-primary {*/
-/*  background:#fff;*/
-/*  border-color:#fff;*/
-/*  color:#a00;*/
-/*}*/
