@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {SolidInput} from "./Solid";
 import {Panel} from './Spectre'
 
-function SolidInputManagerInterface({title, inputs, showAddBtn, addClickHandler}) {
+function SolidInputManagerInterface({title, inputs, showAddBtn, addClickHandler, exampleItemName}) {
     return (
         <Panel
             title={title}
@@ -12,7 +12,7 @@ function SolidInputManagerInterface({title, inputs, showAddBtn, addClickHandler}
             )}
         >
             <p className="input-help">Enter width, length, height, (optional) description. Omit units.<br/>
-                <em>Example:</em> <code>4.5, 4.2, 1, Coasters</code>
+                <em>Example:</em> <code>4.5, 4.2, 1{exampleItemName && ', ' + exampleItemName }</code>
             </p>
 
             {inputs}
@@ -23,13 +23,15 @@ SolidInputManagerInterface.propTypes = {
     title: PropTypes.string.isRequired,
     inputs: PropTypes.array.isRequired,
     showAddBtn: PropTypes.bool.isRequired,
-    addClickHandler: PropTypes.func.isRequired
+    addClickHandler: PropTypes.func.isRequired,
+    exampleItemName: PropTypes.string
 }
 
 export class SolidInputManager extends React.Component {
     static propTypes = {
         title: PropTypes.string.isRequired,
-        onChange: PropTypes.func.isRequired
+        onChange: PropTypes.func.isRequired,
+        exampleItemName: PropTypes.string
     }
 
     constructor(props){
@@ -122,10 +124,10 @@ export class SolidInputManager extends React.Component {
                 addClickHandler={() => {
                     this.addInput()
                 }}
+                exampleItemName={this.props.exampleItemName}
             />
         )
     }
 }
-
 
 export default SolidInputManager;

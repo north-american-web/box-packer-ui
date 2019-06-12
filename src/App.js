@@ -17,12 +17,14 @@ function AppInterface({onBoxInputsChange, onItemInputsChange, apiRequest, apiRes
                                 <SolidInputManager
                                     title='Boxes'
                                     onChange={onBoxInputsChange}
+                                    exampleItemName='Small box'
                                 />
                             </div>
                             <div className="column col-sm-12 col-6">
                                 <SolidInputManager
                                     title='Items'
                                     onChange={onItemInputsChange}
+                                    exampleItemName='Coasters 2-pack'
                                 />
                             </div>
                         </div>
