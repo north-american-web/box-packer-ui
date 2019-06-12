@@ -1,4 +1,6 @@
-export function attemptPack({items, boxes}){
+export function attemptPack(request){
+    const {items, boxes} = request;
+    console.log(items);
     return fetch(process.env.REACT_APP_API_URL, {
             method: 'POST',
             mode: 'cors',
@@ -17,6 +19,6 @@ export function attemptPack({items, boxes}){
                 throw new Error(response.message)
             }
 
-            return response;
+            return { request, response };
         })
 }

@@ -30,9 +30,9 @@ PackingResultsSegment.propTypes = {
     solids: PropTypes.array.isRequired
 }
 
-export function PackingResults({success, packed = [], empty = [], leftOverItems = []}) {
+export function PackingResults({success, packed = [], empty = [], leftOverItems = [], apiRequest, apiResponse}) {
     return (
-        <Panel title='Results'>
+        <Panel title='API Response'>
             <Toast status={success ? 'success' : 'error'}>
                 The item(s) {success ? '' : 'won\'t'} fit into the box(es)!
             </Toast>
@@ -60,6 +60,12 @@ export function PackingResults({success, packed = [], empty = [], leftOverItems 
                     />
                 </div>
             </div>
+
+            <h6>Request JSON</h6>
+            <pre className="code" data-lang='JSON'><code>{apiRequest}</code></pre>
+
+            <h6>Response JSON</h6>
+            <pre className="code" data-lang='JSON'><code>{apiResponse}</code></pre>
         </Panel>
     )
 }
@@ -68,7 +74,9 @@ PackingResults.propTypes = {
     success: PropTypes.bool.isRequired,
     packed: PropTypes.array,
     empty: PropTypes.array,
-    leftOverItems: PropTypes.array
+    leftOverItems: PropTypes.array,
+    apiRequest: PropTypes.string.isRequired,
+    apiResponse: PropTypes.string.isRequired
 }
 
 export function FillProgress({percent}) {

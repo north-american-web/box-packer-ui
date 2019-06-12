@@ -7,7 +7,7 @@ import {Toast} from './components/Spectre'
 import {PackingResults} from './components/PackingResults'
 import Instructions from './components/Instructions'
 
-function AppInterface({onBoxInputsChange, onItemInputsChange, apiResults, error, showInstructions, handleShowInstructions, handleHideInstructions}) {
+function AppInterface({onBoxInputsChange, onItemInputsChange, apiRequest, apiResponse, error}) {
     return (
         <div className="App">
             <Instructions/>
@@ -34,12 +34,15 @@ function AppInterface({onBoxInputsChange, onItemInputsChange, apiResults, error,
                         <Toast status='error'>{error}</Toast>
                     )}
 
-                    {apiResults && (
+                    {apiResponse && (
                         <PackingResults
-                            success={apiResults.success}
-                            packed={apiResults.packed}
-                            empty={apiResults.empty}
-                            leftOverItems={apiResults.leftOverItems}/>
+                            success={apiResponse.success}
+                            packed={apiResponse.packed}
+                            empty={apiResponse.empty}
+                            leftOverItems={apiResponse.leftOverItems}
+                            apiRequest={JSON.stringify(apiRequest, null, 2)}
+                            apiResponse={JSON.stringify(apiResponse, null, 2)}
+                        />
                     )}
                 </div>
             </div>
@@ -51,7 +54,8 @@ class App extends React.Component {
     state = {
         boxes: [],
         items: [],
-        apiResults: null,
+        lastAPIRequest: undefined,
+        lastAPIResponse: undefined,
         error: false,
         showInstructions: false
     }
@@ -75,10 +79,12 @@ class App extends React.Component {
     }
 
     attemptPacking = () => {
-        attemptPack(this.state)
+        const request = {items: this.state.items, boxes: this.state.boxes}
+        attemptPack(request)
             .then((data) => {
                 this.setState({
-                    apiResults: data,
+                    lastAPIRequest: data.request,
+                    lastAPIResponse: data.response,
                     error: false
                 })
 
@@ -91,6 +97,7 @@ class App extends React.Component {
                 console.warn('Error fetching packing attempt results: ', error)
 
                 this.setState({
+                    lastAPIRequest: request,
                     error: `There was an error fetching packing attempt results.`
                 })
 
@@ -117,7 +124,8 @@ class App extends React.Component {
                 onItemInputsChange={(data) => this.handleChange('items', data)}
                 itemVolume={itemVolume}
                 boxVolume={boxVolume}
-                apiResults={this.state.apiResults}
+                apiRequest={this.state.lastAPIRequest}
+                apiResponse={this.state.lastAPIResponse}
                 error={this.state.error}
             />
         );

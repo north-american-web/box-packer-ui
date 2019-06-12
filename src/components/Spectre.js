@@ -3,9 +3,11 @@ import React from 'react'
 export function Panel({title, footer, children}){
     return (
         <div className="panel mt-2">
-            <div className="panel-header">
-                <div className="panel-title">{title}</div>
-            </div>
+            { title && (
+                <div className="panel-header">
+                    <div className="panel-title">{title}</div>
+                </div>
+            )}
             <div className="panel-body">
                 {children}
             </div>
