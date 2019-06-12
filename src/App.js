@@ -5,12 +5,10 @@ import SolidInputManager from './components/SolidInputManager'
 import {attemptPack} from './utils/boxPackerAPI'
 import {Toast} from './components/Spectre'
 import {PackingResults} from './components/PackingResults'
-import Instructions from './components/Instructions'
 
 function AppInterface({onBoxInputsChange, onItemInputsChange, apiRequest, apiResponse, error}) {
     return (
         <div className="App">
-            <Instructions/>
             <div className="container grid-lg">
                 <div className='app-content'>
                     <div className='input-manager mt-2'>

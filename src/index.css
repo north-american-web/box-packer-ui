@@ -13,6 +13,9 @@ body {
   color:#888;
   text-align:right;
   height:3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .main-footer p {
@@ -22,9 +25,9 @@ body {
 .site-header {
   display:flex;
   justify-content: space-between;
-  align-items: center;
-  padding:0 1rem;
-  height:3rem;
+  align-items: baseline;
+  padding:.75rem 1rem 0;
+  min-height:3rem;
 }
 
 @media only screen and (max-width: 719px) {
@@ -37,14 +40,23 @@ body {
   }
 }
 
-.site-header h1 {
+.site-header__title {
   font-size:26px;
   margin:0;
 }
 
-.site-header h2 {
+.site-header__subtitle {
   font-size:.75rem;
   margin:0;
+}
+
+.site-header__subtitle a {
+  color:#fff;
+  text-decoration: underline;
+}
+
+.introduction {
+  margin-top:1.2rem;
 }
 
 #root {
@@ -58,13 +70,15 @@ body {
 }
 
 .instructions-toggle {
-  position:absolute;
-  right: 30px;
-  top:24px;
+  text-align:right;
+}
+
+.input-help {
+  font-size:.6rem;
+  margin-bottom:.3rem;
 }
 
 .app-content {
-  min-height: calc(100vh - 6rem);
   display:flex;
   flex-direction:column;
   justify-content: center;

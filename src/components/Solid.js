@@ -32,6 +32,7 @@ function SolidInputForm({ isInputValid, inputKey, onSubmit, onInputFieldChange, 
                         className={
                             `solid-input__input form-input ${isInputValid && 'is-error' }`
                         }
+                        aria-invalid={isInputValid}
                         id={`solid-input_${inputKey}`}
                         type='text'
                         placeholder='width, length, height, description'
@@ -42,6 +43,7 @@ function SolidInputForm({ isInputValid, inputKey, onSubmit, onInputFieldChange, 
                     <button
                         className='btn btn-default input-group-btn'
                         type='button'
+                        aria-label='Delete item'
                         onClick={onRemove}
                     >
                         <FaTrash size={16}/>
@@ -136,10 +138,10 @@ export class SolidInput extends React.Component {
         const floatPattern = '\\d+(?:\\.\\d+)?'
         const separatorPattern = '\\s*,\\s*'
 
-        // fullPattern evaluates to ^(\d+(?:\.\d+)?)s*,s*(\d+(?:\.\d+)?)s*,s*(\d+(?:\.\d+)?)(?:s*,s*(.*))?
+        // fullPattern evaluates to ^(\d+(?:\.\d+)?)s*,s*(\d+(?:\.\d+)?)s*,s*(\d+(?:\.\d+)?)(?:s*,s*(.*))?$
         // This pattern matches three or four comma separated values: 1-3 must be numbers, the fourth value (if present)
         // may be anything
-        const fullPattern = `^(${floatPattern})${separatorPattern}(${floatPattern})${separatorPattern}(${floatPattern})(?:${separatorPattern}(.*))?`
+        const fullPattern = `^(${floatPattern})${separatorPattern}(${floatPattern})${separatorPattern}(${floatPattern})(?:${separatorPattern}(.*))?$`
         const matched = rawString.match(new RegExp(fullPattern))
 
         let newState = {}

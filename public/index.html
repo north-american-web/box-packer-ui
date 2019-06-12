@@ -6,16 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="theme-color" content="#000000"/>
 
+    <title>Box-Packing Tester by North American Web</title>
+    <meta name="description" content="This is a tool for testing the Box-Packer API and the box-packing algorithm
+    implementation it exposes." />
+
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
     <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
 
-    <title>Box-Packing Tester by North American Web</title>
 </head>
 <body>
 <main class="main-content">
     <header class="site-header bg-primary">
-        <h1>Box-Packing Tester</h1>
-        <h2 class="text-secondary">By <a href="https://www.northamericanweb.com">North American Web Company</a></h2>
+        <h1 class="site-header__title">Box-Packing Tester</h1>
+        <h2 class="site-header__subtitle">A project of <a href="https://www.northamericanweb.com">North American Web Company</a></h2>
 
         <noscript>
             <div class="container grid-lg bg-dark">
@@ -24,6 +27,14 @@
         </noscript>
     </header>
 
+    <div class="container grid-lg introduction">
+        <h3>What is this?</h3>
+        <p>This is a tool for testing the
+            <a href="https://github.com/north-american-web/box-packer-api" target="_blank">Box-Packer API</a> and the
+            box-packing algorithm implementation it exposes. To use the tool, enter dimensions and (optionally) a
+            description for each of your items and boxes, and the tool will tell you whether all the items fit into all
+            the boxes.</p>
+    </div>
     <div id="root"></div>
 </main>
 <footer class="main-footer">

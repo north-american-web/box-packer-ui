@@ -8,10 +8,13 @@ function SolidInputManagerInterface({title, inputs, showAddBtn, addClickHandler}
         <Panel
             title={title}
             footer={showAddBtn && (
-                <button className='btn btn-primary btn-sm' onClick={addClickHandler}>+</button>
+                <button className='btn btn-primary btn-sm' aria-label='Add an item' onClick={addClickHandler}>+</button>
             )}
         >
-            <small className="text-dark">Enter width, length, height, (optional) description. No units.</small>
+            <p className="input-help">Enter width, length, height, (optional) description. Omit units.<br/>
+                <em>Example:</em> <code>4.5, 4.2, 1, Coasters</code>
+            </p>
+
             {inputs}
         </Panel>
     )
