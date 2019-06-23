@@ -7,11 +7,11 @@ export function SolidInputView({ isInputInvalid, inputKey, onInputFieldChange, o
     return (
         <div className="form-group">
             <div className="input-group">
-                <label htmlFor={`solid-input_${inputKey}`} style={{display:'none'}}>Solid input</label>
                 <input
                     className={
                         `solid-input__input form-input ${isError && 'is-error' }`
                     }
+                    aria-label='Solid input'
                     aria-invalid={isInputInvalid}
                     id={`solid-input_${inputKey}`}
                     type='text'
