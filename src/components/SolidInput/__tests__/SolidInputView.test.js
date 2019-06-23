@@ -11,7 +11,7 @@ describe('<SolidInputView/>', () => {
        const inputKey = 'test-key',
            inputValue = '11';
 
-       const {getByLabelText} = render(<SolidInputView
+       const {getByLabelText, asFragment} = render(<SolidInputView
            isInputInvalid={isInputInvalid}
            inputKey={inputKey}
            onInputFieldChange={() => {}}
@@ -25,6 +25,8 @@ describe('<SolidInputView/>', () => {
        expect(input).toHaveAttribute('id', 'solid-input_test-key');
        expect(input).toHaveClass('is-error');
        expect(input).toHaveValue('11');
+
+       expect(asFragment()).toMatchSnapshot();
     })
 
     it('doesn\'t use the error class if data is invalid and empty', () => {
