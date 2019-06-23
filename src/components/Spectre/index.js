@@ -19,13 +19,13 @@ export function Panel({title, footer, children}){
 }
 
 export function Toast({status, children}){
-    return <div className={`toast toast-${status}`}>{children}</div>
+    return <div data-testid="toast-element" className={`toast toast-${status}`}>{children}</div>
 }
 
 export function Bar({ indicatorClasses, percent }){
     return (
         <div className="bar bar-sm">
-            <div
+            <div data-testid='bar-element'
                 className={indicatorClasses}
                 role="progressbar"
                 style={{width: `${percent}%`}}

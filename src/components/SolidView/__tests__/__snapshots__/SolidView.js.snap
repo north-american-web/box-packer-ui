@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SolidView/> renders 1`] = `
+<DocumentFragment>
+  <span
+    class="solid-view__description"
+  >
+    Fake item
+  </span>
+  <span
+    class="solid-view__dimensions"
+  >
+    (2x3x4)
+  </span>
+</DocumentFragment>
+`;
+
+exports[`<SolidView/> renders children when appropriate 1`] = `
+<DocumentFragment>
+  <span
+    class="solid-view__description"
+  >
+    Fake item
+  </span>
+  <span
+    class="solid-view__dimensions"
+  >
+    (2x3x4)
+  </span>
+  <ul
+    class="solid-preview__children"
+  >
+    <li>
+      <span
+        class="solid-view__description"
+      >
+        Item
+      </span>
+      <span
+        class="solid-view__dimensions"
+      >
+        (1x1x1)
+      </span>
+    </li>
+  </ul>
+</DocumentFragment>
+`;

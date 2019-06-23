@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Bar/> renders and displays correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="bar bar-sm"
+  >
+    <div
+      aria-valuemax="100"
+      aria-valuemin="0"
+      aria-valuenow="55"
+      class="test-class"
+      data-testid="bar-element"
+      role="progressbar"
+      style="width: 55%;"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<Panel/> renders and displays correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="panel mt-2"
+  >
+    <div
+      class="panel-header"
+    >
+      <div
+        class="panel-title"
+      >
+        Fake title
+      </div>
+    </div>
+    <div
+      class="panel-body"
+    >
+      <div>
+        Children
+      </div>
+    </div>
+    <div
+      class="panel-footer"
+    >
+      <div>
+        Footer
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<Toast/> renders and displays correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="toast toast-fake-status"
+    data-testid="toast-element"
+  >
+    <div>
+      Children
+    </div>
+  </div>
+</DocumentFragment>
+`;

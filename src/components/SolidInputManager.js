@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import {SolidInput} from "./Solid";
+import SolidInput from "./SolidInput";
 import {Panel} from './Spectre'
 
 function SolidInputManagerInterface({title, inputs, showAddBtn, addClickHandler, exampleItemName}) {

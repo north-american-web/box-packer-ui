@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PackingResultsListView/> renders 1`] = `
+<DocumentFragment>
+  <h6
+    data-testid="packing-results-list-view__title"
+  >
+    Fake title
+  </h6>
+  <ul
+    data-testid="packing-results-list-view__contents"
+  >
+    <li>
+      <span
+        class="solid-view__description"
+      >
+        Box
+      </span>
+      <span
+        class="solid-view__dimensions"
+      >
+        (1x1x1)
+      </span>
+    </li>
+    <li>
+      <span
+        class="solid-view__description"
+      >
+        Box
+      </span>
+      <span
+        class="solid-view__dimensions"
+      >
+        (1x1x1)
+      </span>
+    </li>
+  </ul>
+</DocumentFragment>
+`;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import SolidInputManager from './components/SolidInputManager'
 import {attemptPack} from './utils/boxPackerAPI'
 import {Toast} from './components/Spectre'
-import {PackingResults} from './components/PackingResults'
+import PackingResultsView from './components/PackingResultsView'
 
 function AppInterface({onBoxInputsChange, onItemInputsChange, apiRequest, apiResponse, error}) {
     return (
@@ -12,22 +12,24 @@ function AppInterface({onBoxInputsChange, onItemInputsChange, apiRequest, apiRes
             <div className="container grid-lg">
                 <div className='app-content'>
                     <div className='input-manager mt-2'>
-                        <div className="columns">
-                            <div className="column col-sm-12 col-6">
-                                <SolidInputManager
-                                    title='Boxes'
-                                    onChange={onBoxInputsChange}
-                                    exampleItemName='Small box'
-                                />
+                        <form>
+                            <div className="columns">
+                                <div className="column col-sm-12 col-6">
+                                    <SolidInputManager
+                                        title='Boxes'
+                                        onChange={onBoxInputsChange}
+                                        exampleItemName='Small box'
+                                    />
+                                </div>
+                                <div className="column col-sm-12 col-6">
+                                    <SolidInputManager
+                                        title='Items'
+                                        onChange={onItemInputsChange}
+                                        exampleItemName='Coasters 2-pack'
+                                    />
+                                </div>
                             </div>
-                            <div className="column col-sm-12 col-6">
-                                <SolidInputManager
-                                    title='Items'
-                                    onChange={onItemInputsChange}
-                                    exampleItemName='Coasters 2-pack'
-                                />
-                            </div>
-                        </div>
+                        </form>
                     </div>
 
                     {error && (
@@ -35,7 +37,7 @@ function AppInterface({onBoxInputsChange, onItemInputsChange, apiRequest, apiRes
                     )}
 
                     {apiResponse && (
-                        <PackingResults
+                        <PackingResultsView
                             success={apiResponse.success}
                             packed={apiResponse.packed}
                             empty={apiResponse.empty}
@@ -109,7 +111,7 @@ class App extends React.Component {
     }
 
     _onEvent = (event) => {
-        if( this.props.onEvent ){
+        if (this.props.onEvent) {
             this.props.onEvent(event)
         }
     }
