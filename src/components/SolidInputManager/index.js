@@ -1,28 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import SolidInput from "./SolidInput";
-import {Panel} from './Spectre'
+import SolidInput from "../SolidInput";
+import {Panel} from '../Spectre'
 
-function SolidInputManagerInterface({title, inputs, showAddBtn, addClickHandler, exampleItemName}) {
+export function SolidInputManagerView({title, inputs, allowAdd, addClickHandler, exampleItemName}) {
     return (
         <Panel
             title={title}
-            footer={showAddBtn && (
-                <button className='btn btn-primary btn-sm' aria-label='Add an item' onClick={addClickHandler}>+</button>
+            footer={(
+                <button className='btn btn-primary btn-sm'
+                        aria-label='Add solid'
+                        disabled={!allowAdd}
+                        onClick={addClickHandler}>+</button>
             )}
         >
             <p className="input-help">Enter width, length, height, (optional) description. Omit units.<br/>
-                <em>Example:</em> <code>4.5, 4.2, 1{exampleItemName && ', ' + exampleItemName }</code>
+                <em>Example:</em> <code>4.5, 4.2, 1{exampleItemName && (
+                    <span data-testid='example-item-name'>{exampleItemName}</span>
+                ) }</code>
             </p>
-
             {inputs}
         </Panel>
     )
 }
-SolidInputManagerInterface.propTypes = {
+SolidInputManagerView.propTypes = {
     title: PropTypes.string.isRequired,
     inputs: PropTypes.array.isRequired,
-    showAddBtn: PropTypes.bool.isRequired,
+    allowAdd: PropTypes.bool.isRequired,
     addClickHandler: PropTypes.func.isRequired,
     exampleItemName: PropTypes.string
 }
@@ -116,14 +120,14 @@ export class SolidInputManager extends React.Component {
             />)
         })
 
+        const showAddButton = this.state.solids.size === this.getValidSolids().length;
+
         return (
-            <SolidInputManagerInterface
+            <SolidInputManagerView
                 title={this.props.title}
                 inputs={solidInputs}
-                showAddBtn={this.state.solids.size === this.getValidSolids().length}
-                addClickHandler={() => {
-                    this.addInput()
-                }}
+                allowAdd={showAddButton}
+                addClickHandler={ this.addInput }
                 exampleItemName={this.props.exampleItemName}
             />
         )
