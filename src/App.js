@@ -53,6 +53,10 @@ function AppInterface({onBoxInputsChange, onItemInputsChange, apiRequest, apiRes
 }
 
 class App extends React.Component {
+    propTypes = {
+        onTrackableEvent: PropTypes.func
+    }
+
     state = {
         boxes: [],
         items: [],
@@ -90,7 +94,7 @@ class App extends React.Component {
                     error: false
                 })
 
-                this._onEvent({
+                this._onTrackableEvent({
                     category: 'Packing attempt',
                     action: 'Received API response'
                 })
@@ -103,16 +107,16 @@ class App extends React.Component {
                     error: `There was an error fetching packing attempt results.`
                 })
 
-                this._onEvent({
+                this._onTrackableEvent({
                     category: 'API Error',
                     action: 'API call failed'
                 })
             })
     }
 
-    _onEvent = (event) => {
-        if (this.props.onEvent) {
-            this.props.onEvent(event)
+    _onTrackableEvent = (event) => {
+        if (this.props.onTrackableEvent) {
+            this.props.onTrackableEvent(event)
         }
     }
 
@@ -132,10 +136,6 @@ class App extends React.Component {
             />
         );
     }
-}
-
-App.propTypes = {
-    onEvent: PropTypes.func
 }
 
 export default App;

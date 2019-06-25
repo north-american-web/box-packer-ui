@@ -4,15 +4,15 @@ import './index.css';
 import App from './App';
 import ReactGA from 'react-ga';
 
+let trackableEventHandler;
 if( process.env.REACT_APP_GA_ID ){
     ReactGA.initialize(process.env.REACT_APP_GA_ID);
     ReactGA.pageview(window.location.pathname + window.location.search);
+    trackableEventHandler = ({ category, action, label }) => {
+        ReactGA.event({ category, action, label })
+    }
 }
 
 ReactDOM.render(<App
-    onEvent={({ category, action, label }) => {
-        if( process.env.REACT_APP_GA_ID ){
-            ReactGA.event({ category, action, label })
-        }
-    }}
+    onTrackableEvent={trackableEventHandler}
 />, document.getElementById('root'));
