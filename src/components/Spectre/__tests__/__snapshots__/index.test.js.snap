@@ -28,12 +28,14 @@ exports[`<Panel/> renders and displays correctly 1`] = `
     >
       <div
         class="panel-title"
+        role="heading"
       >
         Fake title
       </div>
     </div>
     <div
       class="panel-body"
+      data-testid="panel-body"
     >
       <div>
         Children
@@ -41,6 +43,7 @@ exports[`<Panel/> renders and displays correctly 1`] = `
     </div>
     <div
       class="panel-footer"
+      data-testid="panel-footer"
     >
       <div>
         Footer

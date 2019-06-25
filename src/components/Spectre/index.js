@@ -5,13 +5,13 @@ export function Panel({title, footer, children}){
         <div className="panel mt-2">
             { title && (
                 <div className="panel-header">
-                    <div className="panel-title">{title}</div>
+                    <div role='heading' className="panel-title">{title}</div>
                 </div>
             )}
-            <div className="panel-body">
+            <div data-testid="panel-body" className="panel-body">
                 {children}
             </div>
-            <div className="panel-footer">
+            <div data-testid="panel-footer" className="panel-footer">
                 {footer}
             </div>
         </div>

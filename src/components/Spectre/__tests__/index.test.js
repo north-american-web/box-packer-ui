@@ -10,11 +10,11 @@ describe('<Panel/>', () => {
         const footer = <div>Footer</div>;
         const children = <div>Children</div>;
 
-        const { getByText, asFragment } = render(<Panel title="Fake title" footer={footer} children={children} />);
+        const { getByTestId, getByRole, asFragment } = render(<Panel title="Fake title" footer={footer} children={children} />);
         expect(asFragment()).toMatchSnapshot();
-        expect(getByText('Fake title')).toHaveClass('panel-title');
-        expect(getByText('Footer')).not.toBeEmpty();
-        expect(getByText('Children')).not.toBeEmpty();
+        expect(getByRole('heading')).toHaveTextContent('Fake title');
+        expect(getByTestId('panel-body')).toHaveTextContent('Children');
+        expect(getByTestId('panel-footer')).toHaveTextContent('Footer');
     })
 })
 
