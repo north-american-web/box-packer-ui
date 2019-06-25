@@ -1,7 +1,7 @@
 import React from 'react';
 import 'jest-dom/extend-expect';
 import {render, fireEvent, cleanup} from '@testing-library/react';
-import SolidInput, {SolidInputView} from '../index'
+import SolidInput from '../index'
 
 afterEach(cleanup);
 
@@ -61,9 +61,7 @@ describe('<SolidInput/>', () => {
     it('handles non-enter keypress correctly', () => {
         const inputKey = 'test-key',
             onSubmit = jest.fn(),
-            onRemove = jest.fn(),
-            onNext = jest.fn(),
-            isDataValid = jest.fn();
+            onNext = jest.fn();
 
         const {getByLabelText} = render(<SolidInput
             inputKey={inputKey}
