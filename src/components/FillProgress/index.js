@@ -5,7 +5,7 @@ import {Bar, Toast} from "../Spectre";
 export function FillProgress({percent}) {
     const classNameExtra = percent > 100
         ? 'bg-error'
-        : percent > 90 ? 'bg-warning' : ''
+        : percent > 90 ? 'bg-warning' : '';
 
     return (
         <>
@@ -21,4 +21,4 @@ export function FillProgress({percent}) {
 
 FillProgress.propTypes = {
     percent: PropTypes.number.isRequired
-}
+};

@@ -50,6 +50,6 @@ PackingResultsView.propTypes = {
     leftOverItems: PropTypes.array,
     apiRequest: PropTypes.string.isRequired,
     apiResponse: PropTypes.string.isRequired
-}
+};
 
 export default PackingResultsView;

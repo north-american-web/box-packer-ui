@@ -16,7 +16,7 @@ describe('<Panel/>', () => {
         expect(getByTestId('panel-body')).toHaveTextContent('Children');
         expect(getByTestId('panel-footer')).toHaveTextContent('Footer');
     })
-})
+});
 
 describe('<Toast/>', () => {
     it('renders and displays correctly', () => {
@@ -26,13 +26,13 @@ describe('<Toast/>', () => {
         expect(getByTestId('toast-element')).toHaveClass('toast-fake-status');
         expect(asFragment()).toMatchSnapshot();
     })
-})
+});
 
 describe('<Bar/>', () => {
     it('renders and displays correctly', () => {
-        const { getByTestId, asFragment } = render(<Bar indicatorClasses='test-class' percent='55' />)
+        const { getByTestId, asFragment } = render(<Bar indicatorClasses='test-class' percent='55' />);
         expect(getByTestId('bar-element')).toHaveAttribute('aria-valuenow', '55');
         expect(getByTestId('bar-element')).toHaveAttribute('style', 'width: 55%;');
         expect(asFragment()).toMatchSnapshot();
     })
-})
+});

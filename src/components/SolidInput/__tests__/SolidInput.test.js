@@ -80,7 +80,7 @@ describe('<SolidInput/>', () => {
         jest.runAllTimers();
         expect(onSubmit).toBeCalled();
         expect(onNext).not.toBeCalled();
-    })
+    });
 
     it('handles enter keypress correctly', () => {
         const inputKey = 'test-key',
@@ -128,4 +128,4 @@ describe('<SolidInput/>', () => {
         expect(input).toBeEmpty();
     });
 
-})
+});

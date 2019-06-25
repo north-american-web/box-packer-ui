@@ -19,7 +19,7 @@ describe('<PackingResultsView/>', () => {
                                         packed={packed}
                                         leftOverItems={leftOverItems}
                                         apiResponse={apiResponse}
-                                        apiRequest={apiRequest} />)
+                                        apiRequest={apiRequest} />);
         expect(renderResult.queryByText('The item(s) fit into the box(es)!')).not.toBeNull();
         expect(renderResult.getByTestId('toast-element')).toHaveClass('toast-success');
 
@@ -35,7 +35,7 @@ describe('<PackingResultsView/>', () => {
 
         expect(renderResult.queryByText(apiRequest)).not.toBeNull();
         expect(renderResult.queryByText(apiResponse)).not.toBeNull();
-    })
+    });
 
     it('handles packing failure and empty values correctly', () => {
         const renderResult = render(<PackingResultsView
@@ -51,4 +51,4 @@ describe('<PackingResultsView/>', () => {
         expect(contents[2].children.length).toBe(0);
     })
 
-})
+});

@@ -19,4 +19,4 @@ describe('<FillProgress/>', () => {
         expect(getByTestId('toast-element')).toHaveClass('toast-error');
         expect(asFragment()).toMatchSnapshot();
     })
-})
+});

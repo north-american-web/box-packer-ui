@@ -29,17 +29,17 @@ SolidInputManagerView.propTypes = {
     allowAdd: PropTypes.bool.isRequired,
     addClickHandler: PropTypes.func.isRequired,
     exampleItemName: PropTypes.string
-}
+};
 
 export class SolidInputManager extends React.Component {
     static propTypes = {
         title: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
         exampleItemName: PropTypes.string
-    }
+    };
 
     constructor(props){
-        super(props)
+        super(props);
 
         this.state = {
             solids: new Map([this.generateNewInputSpecs()])
@@ -47,46 +47,46 @@ export class SolidInputManager extends React.Component {
     }
 
     // Used to ensure item ids are always unique
-    childIterator = 1
+    childIterator = 1;
 
     generateNewInputSpecs = () => {
         const id = `bi_${Date.now()}_${this.childIterator++}`;
         return [id, {}]
-    }
+    };
 
     addInput = () => {
-        const [id, data] = this.generateNewInputSpecs()
+        const [id, data] = this.generateNewInputSpecs();
         this.setState(({solids}) => {
-            solids.set(id, data)
+            solids.set(id, data);
             return {solids}
         })
-    }
+    };
 
     handleInputNext = () => {
         if (this.state.solids.size === this.getValidSolids().length) {
             this.addInput()
         }
-    }
+    };
 
     handleInputRemove = (key) => {
-        let {solids} = this.state
+        let {solids} = this.state;
         solids.size > 1 ? solids.delete(key) : solids.set(key, {});
         this.setState({solids}, () => {
             this._onChange()
         })
-    }
+    };
 
     handleInputSubmit = (key, data) => {
-        const {solids} = this.state
-        solids.set(key, data)
+        const {solids} = this.state;
+        solids.set(key, data);
         this.setState({solids}, () => {
             this._onChange()
         })
-    }
+    };
 
     _onChange = () => {
         this.props.onChange(this.getValidSolids())
-    }
+    };
 
     /**
      *
@@ -94,18 +94,18 @@ export class SolidInputManager extends React.Component {
      */
     getValidSolids = () => {
         return Array.from(this.state.solids.values()).filter(solid => this.isDataValid(solid))
-    }
+    };
 
     isDataValid = ({width, length, height}) => {
-        const MAX = 999999999 // This is arbitrary
+        const MAX = 999999999; // This is arbitrary
 
         return (width > 0 && width < MAX
             && length > 0 && length < MAX
             && height > 0 && height < MAX )
-    }
+    };
 
     render() {
-        const solidInputs = []
+        const solidInputs = [];
 
         this.state.solids.forEach((value, key) => {
             solidInputs.push(<SolidInput
@@ -118,7 +118,7 @@ export class SolidInputManager extends React.Component {
                 }}
                 isDataValid={this.isDataValid}
             />)
-        })
+        });
 
         const showAddButton = this.state.solids.size === this.getValidSolids().length;
 

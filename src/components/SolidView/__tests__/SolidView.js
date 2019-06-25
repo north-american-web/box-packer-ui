@@ -27,7 +27,7 @@ describe('<SolidView/>', () => {
         };
         const { getByText } = render(<SolidView fallbackDescription='Fallback' solid={fakeSolid} />);
         expect(getByText('Fallback')).toHaveClass('solid-view__description');
-    })
+    });
 
     it('renders children when appropriate', () => {
         const fakeSolid = {

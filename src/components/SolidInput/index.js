@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {FaTrash} from 'react-icons/fa'
 
 export function SolidInputView({ isInputInvalid, inputKey, onInputFieldChange, onInputKeyPress, inputValue, onRemove }){
-    const isError = isInputInvalid && inputValue
+    const isError = isInputInvalid && inputValue;
     return (
         <div className="form-group">
             <div className="input-group">
@@ -42,7 +42,7 @@ SolidInputView.propTypes = {
     inputValue: PropTypes.string,
     onInputKeyPress: PropTypes.func.isRequired,
     onInputFieldChange: PropTypes.func.isRequired,
-}
+};
 
 class SolidInput extends React.Component {
     static propTypes = {
@@ -51,29 +51,29 @@ class SolidInput extends React.Component {
         onRemove: PropTypes.func.isRequired,
         onNext: PropTypes.func,
         isDataValid: PropTypes.func.isRequired
-    }
+    };
 
     state = {
         isValid: false,
         raw: ''
-    }
+    };
 
-    typingTimeout = 0
+    typingTimeout = 0;
 
     handleInputKeyPress = (event) => {
         if( event.key === 'Enter' ){
-            event.preventDefault()
+            event.preventDefault();
             if (this.typingTimeout) {
                 clearTimeout(this.typingTimeout)
             }
 
-            this._onSubmit()
+            this._onSubmit();
 
             if (this.props.hasOwnProperty('onNext')) {
                 this.props.onNext()
             }
         }
-    }
+    };
 
     handleInputChange = (event) => {
         if (this.typingTimeout) {
@@ -82,17 +82,17 @@ class SolidInput extends React.Component {
 
         this.setState({
             raw: event.target.value
-        })
+        });
 
         this.typingTimeout = setTimeout(() => {
             this._onSubmit()
         }, 300)
-    }
+    };
 
     _onSubmit = () => {
-        const solid = this.getSolidFromCurrentState()
+        const solid = this.getSolidFromCurrentState();
         this.props.onSubmit(this.props.inputKey, solid)
-    }
+    };
 
     handleRemove = (e) => {
         e.preventDefault();
@@ -108,19 +108,19 @@ class SolidInput extends React.Component {
             isValid: false,
             raw: ''
         })
-    }
+    };
 
     getSolidFromCurrentState = () => {
         const rawString = this.state.raw;
 
-        const floatPattern = '\\d+(?:\\.\\d+)?'
-        const separatorPattern = '\\s*,\\s*'
+        const floatPattern = '\\d+(?:\\.\\d+)?';
+        const separatorPattern = '\\s*,\\s*';
 
         // fullPattern evaluates to ^(\d+(?:\.\d+)?)s*,s*(\d+(?:\.\d+)?)s*,s*(\d+(?:\.\d+)?)(?:s*,s*(.*))?$
         // This pattern matches three or four comma separated values: 1-3 must be numbers, the fourth value (if present)
         // may be anything
-        const fullPattern = `^(${floatPattern})${separatorPattern}(${floatPattern})${separatorPattern}(${floatPattern})(?:${separatorPattern}(.*))?$`
-        const matched = rawString.match(new RegExp(fullPattern))
+        const fullPattern = `^(${floatPattern})${separatorPattern}(${floatPattern})${separatorPattern}(${floatPattern})(?:${separatorPattern}(.*))?$`;
+        const matched = rawString.match(new RegExp(fullPattern));
 
         let solid = {
             width: undefined,
@@ -137,11 +137,11 @@ class SolidInput extends React.Component {
         }
 
         return solid
-    }
+    };
 
     isValid = () => {
         return this.props.isDataValid(this.getSolidFromCurrentState())
-    }
+    };
 
     render() {
         return (

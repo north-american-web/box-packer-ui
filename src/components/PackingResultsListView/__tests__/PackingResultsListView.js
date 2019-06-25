@@ -16,4 +16,4 @@ describe('<PackingResultsListView/>', () => {
         expect(asFragment()).toMatchSnapshot();
         expect(queryByText('Fake title')).not.toBeNull();
     })
-})
+});

@@ -24,6 +24,6 @@ SolidView.propTypes = {
     solid: PropTypes.object.isRequired,
     fallbackDescription: PropTypes.string.isRequired,
     children: PropTypes.array
-}
+};
 
 export default SolidView;

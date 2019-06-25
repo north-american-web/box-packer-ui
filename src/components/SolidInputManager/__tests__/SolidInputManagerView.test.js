@@ -7,7 +7,7 @@ afterEach(cleanup);
 
 describe('<SolidInputManagerView/>', () => {
     it('renders and displays correctly', () => {
-        const { getByTestId, getByRole, getByLabelText, asFragment } = render(<SolidInputManagerView
+        const { getByTestId, getByRole, getByLabelText } = render(<SolidInputManagerView
             inputs={[<div key='i1' data-testid='input-id'>input</div>]}
             allowAdd={true}
             addClickHandler={() => {}}
@@ -20,7 +20,7 @@ describe('<SolidInputManagerView/>', () => {
         expect(addButton).toBeEnabled();
         expect(getByTestId('example-item-name')).toHaveTextContent('Example item');
         expect(getByTestId('input-id')).toHaveTextContent('input');
-    })
+    });
 
     it('renders and displays correctly with disabled button', () => {
         const { getByLabelText } = render(<SolidInputManagerView
@@ -32,7 +32,7 @@ describe('<SolidInputManagerView/>', () => {
 
         const addButton = getByLabelText('Add solid');
         expect(addButton).not.toBeEnabled();
-    })
+    });
 
     it('handles add button clicks correctly', () => {
         const onClick = jest.fn();
@@ -47,4 +47,4 @@ describe('<SolidInputManagerView/>', () => {
 
         expect(onClick).toHaveBeenCalled();
     })
-})
+});
