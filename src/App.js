@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import PropTypes from 'prop-types'
-import SolidInputManager from './components/SolidInputManager'
+import SolidInputManager, {SolidInputManagerView} from './components/SolidInputManager'
 import {attemptPack} from './utils/boxPackerAPI'
 import {Toast} from './components/Spectre'
 import PackingResultsView from './components/PackingResultsView'
