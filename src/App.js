@@ -60,7 +60,7 @@ AppView.propTypes = {
 };
 
 class App extends React.Component {
-    propTypes = {
+    static propTypes = {
         onTrackableEvent: PropTypes.func
     }
 
