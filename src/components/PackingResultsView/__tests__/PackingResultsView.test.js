@@ -10,8 +10,8 @@ describe('<PackingResultsView/>', () => {
         const packed = [ {width: 1, length: 2, height: 3}];
         const empty = [ {width: 4, length: 5, height: 6}];
         const leftOverItems = [{width: 7, length: 8, height: 9}];
-        const apiRequest = '{apiRequest}';
-        const apiResponse = '{apiResponse}';
+        const apiRequest = {label: 'api-request'};
+        const apiResponse = {label: 'api-response'};
 
         const renderResult = render(<PackingResultsView
                                         success={true}
@@ -33,15 +33,15 @@ describe('<PackingResultsView/>', () => {
         expect(contents[1].children.length).toBe(1);
         expect(contents[2].children.length).toBe(1);
 
-        expect(renderResult.queryByText(apiRequest)).not.toBeNull();
-        expect(renderResult.queryByText(apiResponse)).not.toBeNull();
+        expect(renderResult.getByTestId('request-json')).toMatchSnapshot();
+        expect(renderResult.getByTestId('response-json')).toMatchSnapshot();
     });
 
     it('handles packing failure and empty values correctly', () => {
         const renderResult = render(<PackingResultsView
             success={false}
-            apiResponse='{apiRequest}'
-            apiRequest='{apiResponse}' />);
+            apiResponse={{label: 'api-request'}}
+            apiRequest={{label: 'api-response'}} />);
 
         expect(renderResult.queryByText('The item(s) won\'t fit into the box(es)!')).not.toBeNull();
 

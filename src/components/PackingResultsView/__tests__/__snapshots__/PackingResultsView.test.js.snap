@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PackingResultsView/> renders and displays correctly 1`] = `
+<code
+  data-testid="request-json"
+>
+  {
+  "label": "api-request"
+}
+</code>
+`;
+
+exports[`<PackingResultsView/> renders and displays correctly 2`] = `
+<code
+  data-testid="response-json"
+>
+  {
+  "label": "api-response"
+}
+</code>
+`;

@@ -42,8 +42,8 @@ export function AppView({onBoxInputsChange, onItemInputsChange, apiRequest, apiR
                             packed={apiResponse.packed}
                             empty={apiResponse.empty}
                             leftOverItems={apiResponse.leftOverItems}
-                            apiRequest={JSON.stringify(apiRequest, null, 2)}
-                            apiResponse={JSON.stringify(apiResponse, null, 2)}
+                            apiRequest={apiRequest}
+                            apiResponse={apiResponse}
                         />
                     )}
                 </div>

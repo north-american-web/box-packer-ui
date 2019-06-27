@@ -35,10 +35,10 @@ function PackingResultsView({success, packed = [], empty = [], leftOverItems = [
             </div>
 
             <h6>Request JSON</h6>
-            <pre className="code" data-lang='JSON'><code>{apiRequest}</code></pre>
+            <pre className="code" data-lang='JSON'><code data-testid="request-json">{JSON.stringify(apiRequest, null, 2)}</code></pre>
 
             <h6>Response JSON</h6>
-            <pre className="code" data-lang='JSON'><code>{apiResponse}</code></pre>
+            <pre className="code" data-lang='JSON'><code data-testid="response-json">{JSON.stringify(apiResponse, null, 2)}</code></pre>
         </Panel>
     )
 }
@@ -48,8 +48,8 @@ PackingResultsView.propTypes = {
     packed: PropTypes.array,
     empty: PropTypes.array,
     leftOverItems: PropTypes.array,
-    apiRequest: PropTypes.string.isRequired,
-    apiResponse: PropTypes.string.isRequired
+    apiRequest: PropTypes.object.isRequired,
+    apiResponse: PropTypes.object.isRequired
 };
 
 export default PackingResultsView;
