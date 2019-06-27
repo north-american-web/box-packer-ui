@@ -83,14 +83,6 @@ class App extends React.Component {
         })
     };
 
-    getSolidsVolume = (solidType) => {
-        if (!this.state[solidType]) {
-            return 0
-        }
-
-        return this.state[solidType].reduce((total, solid) => total + (solid.width * solid.length * solid.height), 0)
-    };
-
     attemptPacking = () => {
         const request = {items: this.state.items, boxes: this.state.boxes};
         attemptPack(request)
@@ -128,15 +120,10 @@ class App extends React.Component {
     };
 
     render() {
-        const itemVolume = this.getSolidsVolume('items');
-        const boxVolume = this.getSolidsVolume('boxes');
-
         return (
             <AppView
                 onBoxInputsChange={(data) => this.handleChange('boxes', data)}
                 onItemInputsChange={(data) => this.handleChange('items', data)}
-                itemVolume={itemVolume}
-                boxVolume={boxVolume}
                 apiRequest={this.state.lastAPIRequest}
                 apiResponse={this.state.lastAPIResponse}
                 error={this.state.error}
