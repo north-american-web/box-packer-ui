@@ -6,7 +6,7 @@ import {attemptPack} from './utils/boxPackerAPI'
 import {Toast} from './components/Spectre'
 import PackingResultsView from './components/PackingResultsView'
 
-function AppInterface({onBoxInputsChange, onItemInputsChange, apiRequest, apiResponse, error}) {
+export function AppView({onBoxInputsChange, onItemInputsChange, apiRequest, apiResponse, error}) {
     return (
         <div className="App">
             <div className="container grid-lg">
@@ -125,7 +125,7 @@ class App extends React.Component {
         const boxVolume = this.getSolidsVolume('boxes')
 
         return (
-            <AppInterface
+            <AppView
                 onBoxInputsChange={(data) => this.handleChange('boxes', data)}
                 onItemInputsChange={(data) => this.handleChange('items', data)}
                 itemVolume={itemVolume}
