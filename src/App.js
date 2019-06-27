@@ -51,6 +51,13 @@ export function AppView({onBoxInputsChange, onItemInputsChange, apiRequest, apiR
         </div>
     )
 }
+AppView.propTypes = {
+    onBoxInputsChange: PropTypes.func.isRequired,
+    onItemInputsChange: PropTypes.func.isRequired,
+    apiRequest: PropTypes.object,
+    apiResponse: PropTypes.object,
+    error: PropTypes.any
+};
 
 class App extends React.Component {
     propTypes = {
