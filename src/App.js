@@ -62,7 +62,7 @@ AppView.propTypes = {
 class App extends React.Component {
     static propTypes = {
         onTrackableEvent: PropTypes.func
-    }
+    };
 
     state = {
         boxes: [],
@@ -71,7 +71,7 @@ class App extends React.Component {
         lastAPIResponse: undefined,
         error: false,
         showInstructions: false
-    }
+    };
 
     handleChange = (inputType, data) => {
         this.setState({
@@ -81,7 +81,7 @@ class App extends React.Component {
                 this.attemptPacking()
             }
         })
-    }
+    };
 
     getSolidsVolume = (solidType) => {
         if (!this.state[solidType]) {
@@ -89,17 +89,17 @@ class App extends React.Component {
         }
 
         return this.state[solidType].reduce((total, solid) => total + (solid.width * solid.length * solid.height), 0)
-    }
+    };
 
     attemptPacking = () => {
-        const request = {items: this.state.items, boxes: this.state.boxes}
+        const request = {items: this.state.items, boxes: this.state.boxes};
         attemptPack(request)
             .then((data) => {
                 this.setState({
                     lastAPIRequest: data.request,
                     lastAPIResponse: data.response,
                     error: false
-                })
+                });
 
                 this._onTrackableEvent({
                     category: 'Packing attempt',
@@ -107,29 +107,29 @@ class App extends React.Component {
                 })
             })
             .catch((error) => {
-                console.warn('Error fetching packing attempt results: ', error)
+                console.warn('Error fetching packing attempt results: ', error);
 
                 this.setState({
                     lastAPIRequest: request,
                     error: `There was an error fetching packing attempt results.`
-                })
+                });
 
                 this._onTrackableEvent({
                     category: 'API Error',
                     action: 'API call failed'
                 })
             })
-    }
+    };
 
     _onTrackableEvent = (event) => {
         if (this.props.onTrackableEvent) {
             this.props.onTrackableEvent(event)
         }
-    }
+    };
 
     render() {
-        const itemVolume = this.getSolidsVolume('items')
-        const boxVolume = this.getSolidsVolume('boxes')
+        const itemVolume = this.getSolidsVolume('items');
+        const boxVolume = this.getSolidsVolume('boxes');
 
         return (
             <AppView
