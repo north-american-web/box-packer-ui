@@ -12,7 +12,7 @@ export function AppView({onBoxInputsChange, onItemInputsChange, apiRequest, apiR
             <div className="container grid-lg">
                 <div className='app-content'>
                     <div className='input-manager mt-2'>
-                        <form>
+                        <form data-testid='solid-inputs-form' onSubmit={(e) => { e.preventDefault(); return false }}>
                             <div className="columns">
                                 <div className="column col-sm-12 col-6">
                                     <SolidInputManager

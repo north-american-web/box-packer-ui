@@ -1,6 +1,6 @@
 import React from 'react';
 import 'jest-dom/extend-expect';
-import {cleanup, render} from "@testing-library/react";
+import {cleanup, fireEvent, render} from "@testing-library/react";
 import {AppView} from '../App';
 import SolidInputManager from "../components/SolidInputManager";
 import PackingResultsView from "../components/PackingResultsView";
@@ -15,13 +15,14 @@ jest.mock('../components/PackingResultsView', () => jest.fn(() => null));
 jest.mock('../components/SolidInputManager', () => jest.fn(() => null));
 jest.mock('../components/Spectre', () => ({ Toast: jest.fn(() => null) }));
 
+const defaultProps = {
+    onBoxInputsChange: () => {},
+    onItemInputsChange: () => {},
+};
+
 describe('<AppView/>', () => {
     it('renders without crashing', () => {
-        const props = {
-            onBoxInputsChange: () => {},
-            onItemInputsChange: () => {},
-        };
-        render(<AppView {...props} />);
+        render(<AppView {...defaultProps} />);
     });
 
     it('attempts to pass SolidInputManagers the correct props', async () => {
@@ -47,13 +48,7 @@ describe('<AppView/>', () => {
     });
 
     it('handles error properly when present', async () => {
-        const props = {
-            onBoxInputsChange: () => {},
-            onItemInputsChange: () => {},
-            error: 'Fake error'
-        };
-        render(<AppView {...props} />);
-
+        render(<AppView {...defaultProps} error='Fake error' />);
         expect(Toast).toHaveBeenCalledWith({
             status: 'error',
             children: 'Fake error'
@@ -61,19 +56,12 @@ describe('<AppView/>', () => {
     });
 
     it('ignores error prop when falsy', async () => {
-        const props = {
-            onBoxInputsChange: () => {},
-            onItemInputsChange: () => {},
-        };
-        render(<AppView {...props} />);
-
+        render(<AppView {...defaultProps} />);
         expect(Toast).not.toHaveBeenCalled();
     });
 
     it('attempts to pass PackingResultsListView the correct props', async () => {
-        const props = {
-            onBoxInputsChange: () => {},
-            onItemInputsChange: () => {},
+        const moreProps = {
             apiResponse: {
                 success: true,
                 packed: 'packed',
@@ -82,11 +70,21 @@ describe('<AppView/>', () => {
             },
             apiRequest: {label: 'api-request'},
         };
-        render(<AppView {...props} />);
+        render(<AppView {...defaultProps} {...moreProps} />);
 
         expect(PackingResultsView).toHaveBeenCalledWith({
-            apiRequest: props.apiRequest,
-            apiResponse: props.apiResponse
+            apiRequest: moreProps.apiRequest,
+            apiResponse: moreProps.apiResponse
         }, {});
     });
+
+    it('prevent solid inputs form submission', () => {
+        const {getByTestId} = render(<AppView {...defaultProps} />);
+        const preventDefault = jest.fn();
+        const submitEvent = new Event('submit');
+        Object.assign(submitEvent, {preventDefault, hi: 'hi!'});
+        fireEvent(getByTestId('solid-inputs-form'), submitEvent);
+
+        expect(preventDefault).toHaveBeenCalled();
+    })
 });
