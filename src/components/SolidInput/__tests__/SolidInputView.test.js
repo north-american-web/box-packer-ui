@@ -5,37 +5,31 @@ import {SolidInputView} from '../index'
 
 afterEach(cleanup);
 
+const defaultProps = {
+    isInputInvalid: true,
+    inputKey: 'test-key',
+    onInputFieldChange: () => {},
+    onInputKeyPress: () => {},
+    onDuplicate: () => {},
+    onRemove: () => {},
+    inputValue:'random-string'
+}
+
 describe('<SolidInputView/>', () => {
     it('renders and displays correctly with invalid data', () => {
-       let isInputInvalid = true;
-       const inputKey = 'test-key',
-           inputValue = '11';
-
-       const {getByLabelText, asFragment} = render(<SolidInputView
-           isInputInvalid={isInputInvalid}
-           inputKey={inputKey}
-           onInputFieldChange={() => {}}
-           onInputKeyPress={() => {}}
-           onRemove={() => {}}
-           inputValue={inputValue}
-       />);
+       const {getByLabelText} = render(<SolidInputView {...defaultProps} />);
 
        const input = getByLabelText('Solid input');
        expect(input).toHaveAttribute('aria-invalid', "true");
        expect(input).toHaveAttribute('id', 'solid-input_test-key');
        expect(input).toHaveClass('is-error');
-       expect(input).toHaveValue('11');
+       expect(input).toHaveValue('random-string');
 
-       expect(asFragment()).toMatchSnapshot();
+       expect(getByLabelText('Duplicate item')).toBeDisabled();
     });
 
     it('doesn\'t use the error class if data is invalid and empty', () => {
-        const {getByLabelText} = render(<SolidInputView
-            isInputInvalid={true}
-            inputKey='test-key'
-            onInputFieldChange={() => {}}
-            onInputKeyPress={() => {}}
-            onRemove={() => {}}
+        const {getByLabelText} = render(<SolidInputView {...defaultProps}
             inputValue=''
         />);
 
@@ -43,50 +37,47 @@ describe('<SolidInputView/>', () => {
     });
 
     it('renders and displays correctly with valid data', () => {
-        let isInputInvalid = false;
-        const inputKey = 'test-key',
-            inputValue = '1,1,1';
-
-        const {getByLabelText} = render(<SolidInputView
-            isInputInvalid={isInputInvalid}
-            inputKey={inputKey}
-            onInputFieldChange={() => {}}
-            onInputKeyPress={() => {}}
-            onRemove={() => {}}
-            inputValue={inputValue}
-        />);
+        const inputValue = '1,1,1';
+        const {getByLabelText} = render(<SolidInputView {...defaultProps}
+                                                        isInputInvalid={false}
+                                                        inputValue={inputValue} />);
 
         const input = getByLabelText('Solid input');
         expect(input).toHaveAttribute('aria-invalid', "false");
         expect(input).not.toHaveClass('is-error');
+        expect(input).toHaveValue(inputValue);
+
+        expect(getByLabelText('Duplicate item')).not.toBeDisabled();
     });
 
     it('fires events correctly', () => {
-        let isInputInvalid = true;
-        const inputKey = 'test-key',
-            onInputKeyPress = jest.fn(),
+        const onInputKeyPress = jest.fn(),
             onInputFieldChange = jest.fn(),
             onRemove = jest.fn(),
+            onDuplicate = jest.fn(),
             inputValue = '1,1,1';
 
-        const {getByLabelText} = render(<SolidInputView
-            isInputInvalid={isInputInvalid}
-            inputKey={inputKey}
+        const {getByLabelText} = render(<SolidInputView {...defaultProps}
+            isInputInvalid={false}
             onInputFieldChange={onInputFieldChange}
             onInputKeyPress={onInputKeyPress}
             inputValue={inputValue}
+            onDuplicate={onDuplicate}
             onRemove={onRemove}
         />);
 
         const input = getByLabelText('Solid input');
 
         fireEvent.click(getByLabelText('Delete item'));
-        expect(onRemove.mock.calls.length).toBe(1);
+        expect(onRemove).toHaveBeenCalled();
 
         fireEvent.keyPress(input, {key: 'Enter', code:13, charCode: 13});
-        expect(onInputKeyPress.mock.calls.length).toBe(1);
+        expect(onInputKeyPress).toHaveBeenCalled();
 
         fireEvent.change(input, { target: { value: 'a' }});
-        expect(onInputFieldChange.mock.calls.length).toBe(1);
+        expect(onInputFieldChange).toHaveBeenCalled();
+
+        fireEvent.click(getByLabelText('Duplicate item'));
+        expect(onDuplicate).toHaveBeenCalled();
     })
 });

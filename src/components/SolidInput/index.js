@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import {FaTrash} from 'react-icons/fa'
+import {FaTrash, FaCopy} from 'react-icons/fa'
 
-export function SolidInputView({ isInputInvalid, inputKey, onInputFieldChange, onInputKeyPress, inputValue, onRemove }){
+export function SolidInputView({ isInputInvalid, inputKey, onInputFieldChange, onInputKeyPress, inputValue, onDuplicate, onRemove }){
     const isError = isInputInvalid && inputValue;
     return (
         <div className="form-group">
@@ -25,7 +25,17 @@ export function SolidInputView({ isInputInvalid, inputKey, onInputFieldChange, o
                 <button
                     className='btn btn-default input-group-btn'
                     type='button'
+                    aria-label='Duplicate item'
+                    title="Duplicate"
+                    disabled={isInputInvalid}
+                    onClick={onDuplicate}>
+                    <FaCopy size={16} />
+                </button>
+                <button
+                    className='btn btn-default input-group-btn'
+                    type='button'
                     aria-label='Delete item'
+                    title='Delete'
                     onClick={onRemove}
                 >
                     <FaTrash size={16}/>
@@ -39,6 +49,7 @@ SolidInputView.propTypes = {
     inputKey: PropTypes.string.isRequired,
     isInputInvalid: PropTypes.bool.isRequired,
     onRemove: PropTypes.func.isRequired,
+    onDuplicate: PropTypes.func.isRequired,
     inputValue: PropTypes.string,
     onInputKeyPress: PropTypes.func.isRequired,
     onInputFieldChange: PropTypes.func.isRequired,
@@ -47,15 +58,17 @@ SolidInputView.propTypes = {
 class SolidInput extends React.Component {
     static propTypes = {
         inputKey: PropTypes.string.isRequired,
+        inputValue: PropTypes.string,
         onSubmit: PropTypes.func.isRequired,
         onRemove: PropTypes.func.isRequired,
+        onDuplicate: PropTypes.func.isRequired,
         onNext: PropTypes.func,
         isDataValid: PropTypes.func.isRequired
     };
 
     state = {
         isValid: false,
-        raw: ''
+        raw: this.props.inputValue || ''
     };
 
     typingTimeout = 0;
@@ -94,15 +107,23 @@ class SolidInput extends React.Component {
         this.props.onSubmit(this.props.inputKey, solid)
     };
 
+    handleDuplicate = (e) => {
+        e.preventDefault();
+        if (this.typingTimeout) {
+            clearTimeout(this.typingTimeout)
+        }
+
+        const solid = this.getSolidFromCurrentState();
+        this.props.onDuplicate(this.props.inputKey, solid);
+    };
+
     handleRemove = (e) => {
         e.preventDefault();
         if (this.typingTimeout) {
             clearTimeout(this.typingTimeout)
         }
 
-        if (this.props.onRemove) {
-            this.props.onRemove()
-        }
+        this.props.onRemove();
 
         this.setState({
             isValid: false,
@@ -149,6 +170,7 @@ class SolidInput extends React.Component {
                 inputKey={`solid-input_${this.props.inputKey}`}
                 isInputInvalid={!this.isValid()}
                 onRemove={this.handleRemove}
+                onDuplicate={this.handleDuplicate}
                 inputValue={this.state.raw}
                 onInputKeyPress={this.handleInputKeyPress}
                 onInputFieldChange={this.handleInputChange}

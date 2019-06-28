@@ -5,12 +5,14 @@ import SolidInputManager from '../index';
 
 afterEach(cleanup);
 
+const defaultProps = {
+    title: 'dummy title',
+    onChange: () => {}
+};
+
 describe('<SolidInputManager/>', () => {
     it('renders and displays correctly', () => {
-        const { getByLabelText } = render(<SolidInputManager
-            title='dummy title'
-            onChange={() => {}}
-        />);
+        const { getByLabelText } = render(<SolidInputManager {...defaultProps} />);
 
         const addButton = getByLabelText('Add solid');
         expect(addButton).not.toBeEnabled();
@@ -18,10 +20,7 @@ describe('<SolidInputManager/>', () => {
     });
 
     it('toggles inclusion of the add button correctly', async () => {
-        const { getAllByLabelText, queryByLabelText, getByLabelText } = render(<SolidInputManager
-            title='dummy title'
-            onChange={() => {}}
-        />);
+        const { getAllByLabelText, queryByLabelText, getByLabelText } = render(<SolidInputManager {...defaultProps} />);
 
         const addButton = getByLabelText('Add solid');
         const firstSolidInput = queryByLabelText('Solid input');
@@ -48,11 +47,8 @@ describe('<SolidInputManager/>', () => {
         expect(addButton).not.toBeEnabled();
     });
 
-    it('adds solid inputs correctly', async () => {
-        const { getByLabelText, queryAllByLabelText } = render(<SolidInputManager
-            title='dummy title'
-            onChange={() => {}}
-        />);
+    it('add button adds solid inputs correctly', async () => {
+        const { getByLabelText, queryAllByLabelText } = render(<SolidInputManager {...defaultProps} />);
 
         let addButton = getByLabelText('Add solid');
 
@@ -66,10 +62,7 @@ describe('<SolidInputManager/>', () => {
     });
 
     it('clears single solid input correctly on remove click', () => {
-        const { getByLabelText } = render(<SolidInputManager
-            title='dummy title'
-            onChange={() => {}}
-        />);
+        const { getByLabelText } = render(<SolidInputManager {...defaultProps} />);
 
         const solidInput = getByLabelText('Solid input');
 
@@ -80,10 +73,7 @@ describe('<SolidInputManager/>', () => {
     });
 
     it('removes solid inputs on remove click', async () => {
-        const { getByLabelText, queryAllByLabelText } = render(<SolidInputManager
-            title='dummy title'
-            onChange={() => {}}
-        />);
+        const { getByLabelText, queryAllByLabelText } = render(<SolidInputManager {...defaultProps} />);
 
         const addButton = getByLabelText('Add solid');
 
@@ -102,8 +92,7 @@ describe('<SolidInputManager/>', () => {
 
     it('sends onChange the right solid input values', async () => {
         const onChange = jest.fn();
-        const { container, getByLabelText, queryAllByLabelText } = render(<SolidInputManager
-            title='dummy title'
+        const { container, getByLabelText, queryAllByLabelText } = render(<SolidInputManager {...defaultProps}
             onChange={onChange}
         />);
 
@@ -120,5 +109,22 @@ describe('<SolidInputManager/>', () => {
             { width: 1, length: 1, height: 1, description: undefined },
             { width: 2, length: 2, height: 2, description: 'fake description' },
         ])
-    })
+    });
+
+    it('duplicate field correctly on duplicate button click', async() => {
+        const { container, getByLabelText, getAllByLabelText } = render(<SolidInputManager {...defaultProps} />);
+
+        const firstInput = getByLabelText('Solid input');
+        fireEvent.change(firstInput, {target:{value:'1,2,3'}});
+
+        const duplicateButton = getByLabelText('Duplicate item');
+        fireEvent.click(duplicateButton);
+
+        //await waitForDomChange(container);
+
+        const inputs = getAllByLabelText('Solid input');
+        expect(inputs.length).toEqual(2);
+        expect(inputs[0].value).toEqual('1,2,3');
+        expect(inputs[1].value).toEqual('1,2,3');
+    });
 });

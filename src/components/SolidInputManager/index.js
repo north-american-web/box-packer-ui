@@ -15,7 +15,7 @@ export function SolidInputManagerView({title, inputs, allowAdd, addClickHandler,
             )}
         >
             <p className="input-help">Enter width, length, height, (optional) description. Omit units.<br/>
-                <em>Example:</em> <code>4.5, 4.2, 1{exampleItemName && (
+                <em>Example:</em> <code>4.5, 4.2, 1, {exampleItemName && (
                     <span data-testid='example-item-name'>{exampleItemName}</span>
                 ) }</code>
             </p>
@@ -68,6 +68,15 @@ export class SolidInputManager extends React.Component {
         }
     };
 
+    handleInputDuplicate = (key, data) => {
+        const [newKey] = this.generateNewInputSpecs();
+        this.setState(({solids}) => {
+            solids.set(key, data);
+            solids.set(newKey, Object.assign({}, data));
+            return {solids};
+        });
+    };
+
     handleInputRemove = (key) => {
         let {solids} = this.state;
         solids.size > 1 ? solids.delete(key) : solids.set(key, {});
@@ -108,16 +117,21 @@ export class SolidInputManager extends React.Component {
         const solidInputs = [];
 
         this.state.solids.forEach((value, key) => {
-            solidInputs.push(<SolidInput
-                key={key}
-                inputKey={key}
-                onSubmit={this.handleInputSubmit}
-                onNext={this.handleInputNext}
-                onRemove={() => {
-                    this.handleInputRemove(key)
-                }}
-                isDataValid={this.isDataValid}
-            />)
+            let solidProps = {
+                key: key,
+                inputKey: key,
+                isDataValid: this.isDataValid,
+                onDuplicate: this.handleInputDuplicate,
+                onNext: this.handleInputNext,
+                onRemove: () => this.handleInputRemove(key),
+                onSubmit: this.handleInputSubmit,
+            };
+            if( value.width || value.length || value.height || value.description ){
+                const parts = Object.values(value).filter((entry, key) => !!entry || entry === 0);
+                solidProps.inputValue = parts.join(',');
+            }
+
+            solidInputs.push(<SolidInput {...solidProps} />)
         });
 
         const showAddButton = this.state.solids.size === this.getValidSolids().length;
@@ -127,7 +141,7 @@ export class SolidInputManager extends React.Component {
                 title={this.props.title}
                 inputs={solidInputs}
                 allowAdd={showAddButton}
-                addClickHandler={ this.addInput }
+                addClickHandler={this.addInput}
                 exampleItemName={this.props.exampleItemName}
             />
         )

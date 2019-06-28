@@ -9,17 +9,22 @@ afterEach(cleanup);
 // Use fake timers to allow us to skip the wait and fetch output immediately.
 jest.useFakeTimers();
 
+let defaultProps = {
+    inputKey: 'test-key',
+    onSubmit: () => {},
+    onDuplicate: () => {},
+    onRemove: () => {},
+    onNext: () => {},
+    isDataValid: () => {}
+};
+
 describe('<SolidInput/>', () => {
     it('handles input change events correctly', () => {
-        const inputKey = 'test-key',
-            onSubmit = jest.fn();
+        const onSubmit = jest.fn();
 
         const {getByLabelText} = render(<SolidInput
-            inputKey={inputKey}
+            {...defaultProps}
             onSubmit={onSubmit}
-            onRemove={() => {}}
-            onNext={() => {}}
-            isDataValid={() => {}}
         />);
 
         const emptySolid = {
@@ -59,16 +64,13 @@ describe('<SolidInput/>', () => {
     });
 
     it('handles non-enter keypress correctly', () => {
-        const inputKey = 'test-key',
-            onSubmit = jest.fn(),
+        const onSubmit = jest.fn(),
             onNext = jest.fn();
 
         const {getByLabelText} = render(<SolidInput
-            inputKey={inputKey}
+            {...defaultProps}
             onSubmit={onSubmit}
-            onRemove={() => {}}
             onNext={onNext}
-            isDataValid={() => {}}
         />);
 
         const input = getByLabelText('Solid input');
@@ -83,16 +85,13 @@ describe('<SolidInput/>', () => {
     });
 
     it('handles enter keypress correctly', () => {
-        const inputKey = 'test-key',
-            onSubmit = jest.fn(),
+        const onSubmit = jest.fn(),
             onNext = jest.fn();
 
         const {getByLabelText} = render(<SolidInput
-            inputKey={inputKey}
+            {...defaultProps}
             onSubmit={onSubmit}
-            onRemove={() => {}}
             onNext={onNext}
-            isDataValid={() => {}}
         />);
 
         const input = getByLabelText('Solid input');
@@ -105,16 +104,13 @@ describe('<SolidInput/>', () => {
     });
 
     it('handles remove correctly', () => {
-        const inputKey = 'test-key',
-            onSubmit = jest.fn(),
+        const onSubmit = jest.fn(),
             onRemove = jest.fn();
 
         const {getByLabelText} = render(<SolidInput
-            inputKey={inputKey}
-            onSubmit={() => {}}
+            {...defaultProps}
+            onSubmit={onSubmit}
             onRemove={onRemove}
-            onNext={() => {}}
-            isDataValid={() => {}}
         />);
 
         const input = getByLabelText('Solid input');
@@ -127,5 +123,22 @@ describe('<SolidInput/>', () => {
 
         expect(input).toBeEmpty();
     });
+
+    it('handles duplicate button click correctly', () => {
+        const onDuplicate = jest.fn();
+
+        const {getByLabelText} = render(<SolidInput
+            {...defaultProps}
+            onDuplicate={onDuplicate}
+        />);
+
+        const input = getByLabelText('Solid input');
+        const duplicateButton = getByLabelText('Duplicate item');
+
+        fireEvent.change(input, {target: {value: '1,1,1'}});
+        fireEvent.click(duplicateButton);
+
+        expect(input).toBeEmpty();
+    })
 
 });
