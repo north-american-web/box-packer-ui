@@ -1,10 +1,10 @@
-import React from 'react'
-import './App.css'
-import PropTypes from 'prop-types'
-import SolidInputManager, {SolidInputManagerView} from './components/SolidInputManager'
-import {attemptPack} from './utils/boxPackerAPI'
-import {Toast} from './components/Spectre'
-import PackingResultsView from './components/PackingResultsView'
+import React from 'react';
+import PropTypes from 'prop-types';
+import {attemptPack} from './utils/boxPackerAPI';
+import './App.css';
+import SolidInputManager from "./components/SolidInputManager";
+import {Toast} from "./components/Spectre";
+import PackingResultsView from "./components/PackingResultsView";
 
 export function AppView({onBoxInputsChange, onItemInputsChange, apiRequest, apiResponse, error}) {
     return (
@@ -38,10 +38,6 @@ export function AppView({onBoxInputsChange, onItemInputsChange, apiRequest, apiR
 
                     {apiResponse && (
                         <PackingResultsView
-                            success={apiResponse.success}
-                            packed={apiResponse.packed}
-                            empty={apiResponse.empty}
-                            leftOverItems={apiResponse.leftOverItems}
                             apiRequest={apiRequest}
                             apiResponse={apiResponse}
                         />
@@ -73,11 +69,15 @@ class App extends React.Component {
         showInstructions: false
     };
 
+    handleBoxesChange = (data) => this.handleChange('boxes', data);
+
+    handleItemsChange = (data) => this.handleChange('items', data);
+
     handleChange = (inputType, data) => {
         this.setState({
             [inputType]: data
         }, () => {
-            if (this.state.items.length > 0) {
+            if (this.state.items.length > 0 && this.state.boxes.length > 0) {
                 this.attemptPacking()
             }
         })
@@ -122,8 +122,8 @@ class App extends React.Component {
     render() {
         return (
             <AppView
-                onBoxInputsChange={(data) => this.handleChange('boxes', data)}
-                onItemInputsChange={(data) => this.handleChange('items', data)}
+                onBoxInputsChange={this.handleBoxesChange}
+                onItemInputsChange={this.handleItemsChange}
                 apiRequest={this.state.lastAPIRequest}
                 apiResponse={this.state.lastAPIResponse}
                 error={this.state.error}
