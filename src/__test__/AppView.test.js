@@ -85,10 +85,6 @@ describe('<AppView/>', () => {
         render(<AppView {...props} />);
 
         expect(PackingResultsView).toHaveBeenCalledWith({
-            success: true,
-            packed: 'packed',
-            empty: 'empty',
-            leftOverItems: 'left-over-items',
             apiRequest: props.apiRequest,
             apiResponse: props.apiResponse
         }, {});

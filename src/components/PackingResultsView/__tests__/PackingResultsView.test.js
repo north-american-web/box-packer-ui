@@ -7,19 +7,17 @@ afterEach(cleanup);
 
 describe('<PackingResultsView/>', () => {
     it('renders and displays correctly', () => {
-        const packed = [ {width: 1, length: 2, height: 3}];
-        const empty = [ {width: 4, length: 5, height: 6}];
-        const leftOverItems = [{width: 7, length: 8, height: 9}];
-        const apiRequest = {label: 'api-request'};
-        const apiResponse = {label: 'api-response'};
+        const props = {
+            apiResponse: {
+                success: true,
+                packed: [ {width: 1, length: 2, height: 3}],
+                empty: [ {width: 4, length: 5, height: 6}],
+                leftOverItems: [{width: 7, length: 8, height: 9}]
+            },
+            apiRequest: {label: 'api-request'}
+        };
 
-        const renderResult = render(<PackingResultsView
-                                        success={true}
-                                        empty={empty}
-                                        packed={packed}
-                                        leftOverItems={leftOverItems}
-                                        apiResponse={apiResponse}
-                                        apiRequest={apiRequest} />);
+        const renderResult = render(<PackingResultsView {...props} />);
         expect(renderResult.queryByText('The item(s) fit into the box(es)!')).not.toBeNull();
         expect(renderResult.getByTestId('toast-element')).toHaveClass('toast-success');
 
@@ -38,10 +36,16 @@ describe('<PackingResultsView/>', () => {
     });
 
     it('handles packing failure and empty values correctly', () => {
-        const renderResult = render(<PackingResultsView
-            success={false}
-            apiResponse={{label: 'api-request'}}
-            apiRequest={{label: 'api-response'}} />);
+        const props = {
+            apiResponse: {
+                success: false,
+                packed: [],
+                empty: [],
+                leftOverItems: []
+            },
+            apiRequest: {label: 'api-requestr'}
+        };
+        const renderResult = render(<PackingResultsView {...props} />);
 
         expect(renderResult.queryByText('The item(s) won\'t fit into the box(es)!')).not.toBeNull();
 

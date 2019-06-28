@@ -15,7 +15,28 @@ exports[`<PackingResultsView/> renders and displays correctly 2`] = `
   data-testid="response-json"
 >
   {
-  "label": "api-response"
+  "success": true,
+  "packed": [
+    {
+      "width": 1,
+      "length": 2,
+      "height": 3
+    }
+  ],
+  "empty": [
+    {
+      "width": 4,
+      "length": 5,
+      "height": 6
+    }
+  ],
+  "leftOverItems": [
+    {
+      "width": 7,
+      "length": 8,
+      "height": 9
+    }
+  ]
 }
 </code>
 `;
