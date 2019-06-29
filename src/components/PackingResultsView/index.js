@@ -34,11 +34,18 @@ function PackingResultsView({apiRequest, apiResponse}) {
                 </div>
             </div>
 
-            <h6>Request JSON</h6>
-            <pre className="code" data-lang='JSON'><code data-testid="request-json">{JSON.stringify(apiRequest, null, 2)}</code></pre>
-
-            <h6>Response JSON</h6>
-            <pre className="code" data-lang='JSON'><code data-testid="response-json">{JSON.stringify(apiResponse, null, 2)}</code></pre>
+            <div className="columns mt-2">
+                <div className="column col-md-12 col-6">
+                    <h6>Request JSON</h6>
+                    <pre className="code" data-lang='JSON'><code
+                        data-testid="request-json">{JSON.stringify(apiRequest, null, 2)}</code></pre>
+                </div>
+                <div className="column col-md-12 col-6">
+                    <h6>Response JSON</h6>
+                    <pre className="code" data-lang='JSON'><code
+                        data-testid="response-json">{JSON.stringify(apiResponse, null, 2)}</code></pre>
+                </div>
+            </div>
         </Panel>
     )
 }
