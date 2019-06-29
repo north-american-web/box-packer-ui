@@ -10,17 +10,16 @@ afterEach(() => {
 });
 
 jest.mock('../components/PackingResultsView', () => jest.fn(() => <div>packing-results-view</div>));
-jest.mock('../utils/boxPackerAPI', () => ({
-    attemptPack: jest.fn(() => {
-        return new Promise(resolve => {
-            return resolve({
-                    request: {label:'request-data'},
-                    response: {label: 'response-data'}
-                },
-            );
-        });
-    })
-}));
+jest.mock('../utils/boxPackerAPI', () => {
+    return {
+        attemptPack: jest.fn(() => {
+                            return new Promise(resolve => resolve({
+                                request: {label: 'request-data'},
+                                response: {label: 'response-data'}
+                            }));
+                        })
+    };
+});
 
 describe('<App/>', () => {
     it('renders without crashing', () => {
@@ -71,6 +70,48 @@ describe('<App/>', () => {
             },
             expect.any(Object)
         );
-    })
+    });
+
+    it('fire successful trackable event correctly', async() => {
+        const eventTracker = jest.fn();
+        const { getAllByLabelText } = render(<App onTrackableEvent={eventTracker}/>);
+
+        const inputs = getAllByLabelText('Solid input');
+
+        fireEvent.change(inputs[0], {target:{value: '2,2,2'}});
+        fireEvent.change(inputs[1], {target:{value: '1,1,1'}});
+
+        await wait(() => expect(attemptPack).toHaveBeenCalled() );
+        expect(eventTracker).toHaveBeenCalledWith({
+            category: 'Packing attempt',
+            action: 'Received API response'
+        });
+    });
+
+    it('fire error trackable event correctly', async() => {
+        attemptPack.mockImplementationOnce(() => {
+            return new Promise( () => {
+                throw new Error('test error');
+            });
+        });
+        console.warn = jest.fn();
+
+        const eventTracker = jest.fn();
+        const { getAllByLabelText } = render(<App onTrackableEvent={eventTracker}/>);
+
+        const inputs = getAllByLabelText('Solid input');
+
+        fireEvent.change(inputs[0], {target:{value: '2,2,2'}});
+        fireEvent.change(inputs[1], {target:{value: '1,1,1'}});
+
+        await wait(() => expect(attemptPack).toHaveBeenCalled() );
+        expect(eventTracker).toHaveBeenCalledWith({
+            category: 'API Error',
+            action: 'API call failed'
+        });
+        expect(console.warn).toHaveBeenCalled();
+    });
+
+
 
 });
