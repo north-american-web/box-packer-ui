@@ -2,7 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import {FaTrash, FaCopy} from 'react-icons/fa'
 
-export function SolidInputView({ isInputInvalid, inputKey, onInputFieldChange, onInputKeyPress, inputValue, onDuplicate, onRemove }){
+export function SolidInputView({ isInputInvalid,
+                                   inputKey,
+                                   onInputFieldChange,
+                                   onInputKeyPress,
+                                   inputValue,
+                                   onDuplicate,
+                                   removeDisabled,
+                                   onRemove }){
     const isError = isInputInvalid && inputValue;
     return (
         <div className="form-group">
@@ -36,6 +43,7 @@ export function SolidInputView({ isInputInvalid, inputKey, onInputFieldChange, o
                     type='button'
                     aria-label='Delete item'
                     title='Delete'
+                    disabled={removeDisabled}
                     onClick={onRemove}
                 >
                     <FaTrash size={16}/>
@@ -49,6 +57,7 @@ SolidInputView.propTypes = {
     inputKey: PropTypes.string.isRequired,
     isInputInvalid: PropTypes.bool.isRequired,
     onRemove: PropTypes.func.isRequired,
+    removeDisabled: PropTypes.bool,
     onDuplicate: PropTypes.func.isRequired,
     inputValue: PropTypes.string,
     onInputKeyPress: PropTypes.func.isRequired,
@@ -61,6 +70,7 @@ class SolidInput extends React.Component {
         inputValue: PropTypes.string,
         onSubmit: PropTypes.func.isRequired,
         onRemove: PropTypes.func.isRequired,
+        removeMayBeDisabled: PropTypes.bool,
         onDuplicate: PropTypes.func.isRequired,
         onNext: PropTypes.func,
         isDataValid: PropTypes.func.isRequired
@@ -169,6 +179,7 @@ class SolidInput extends React.Component {
             <SolidInputView
                 inputKey={`solid-input_${this.props.inputKey}`}
                 isInputInvalid={!this.isValid()}
+                removeDisabled={this.props.removeMayBeDisabled && this.state.raw === ''}
                 onRemove={this.handleRemove}
                 onDuplicate={this.handleDuplicate}
                 inputValue={this.state.raw}

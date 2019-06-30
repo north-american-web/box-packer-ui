@@ -15,7 +15,8 @@ let defaultProps = {
     onDuplicate: () => {},
     onRemove: () => {},
     onNext: () => {},
-    isDataValid: () => {}
+    isDataValid: () => {},
+    removeMayBeDisabled: true,
 };
 
 describe('<SolidInput/>', () => {
@@ -139,6 +140,24 @@ describe('<SolidInput/>', () => {
         fireEvent.click(duplicateButton);
 
         expect(input).toBeEmpty();
-    })
+    });
+
+    it('handles remove button state correctly', () => {
+        const {getByLabelText} = render(<SolidInput
+            {...defaultProps}
+            removeMayBeDisabled={false}
+        />);
+        expect(getByLabelText('Delete item')).toBeEnabled();
+
+        cleanup();
+
+        render(<SolidInput
+            {...defaultProps}
+            removeMayBeDisabled={true}
+        />);
+        expect(getByLabelText('Delete item')).toBeDisabled();
+        fireEvent.change(getByLabelText('Solid input'), {target:{value:'test'}});
+        expect(getByLabelText('Delete item')).toBeEnabled();
+    });
 
 });

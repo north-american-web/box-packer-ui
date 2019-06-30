@@ -12,8 +12,9 @@ const defaultProps = {
     onInputKeyPress: () => {},
     onDuplicate: () => {},
     onRemove: () => {},
+    removeDisabled: false,
     inputValue:'random-string'
-}
+};
 
 describe('<SolidInputView/>', () => {
     it('renders and displays correctly with invalid data', () => {
@@ -79,5 +80,16 @@ describe('<SolidInputView/>', () => {
 
         fireEvent.click(getByLabelText('Duplicate item'));
         expect(onDuplicate).toHaveBeenCalled();
-    })
+    });
+
+    it('sets remove button disabled state correctly', () => {
+        const {getByLabelText} = render(<SolidInputView {...defaultProps} removeDisabled={true} />);
+        expect(getByLabelText('Delete item')).toBeDisabled();
+
+        cleanup();
+
+        render(<SolidInputView {...defaultProps} removeDisabled={false} />);
+        expect(getByLabelText('Delete item')).not.toBeDisabled();
+    });
+
 });

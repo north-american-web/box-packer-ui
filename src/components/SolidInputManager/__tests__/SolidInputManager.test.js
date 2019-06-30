@@ -111,7 +111,7 @@ describe('<SolidInputManager/>', () => {
         ])
     });
 
-    it('duplicate field correctly on duplicate button click', async() => {
+    it('duplicates field correctly on duplicate button click', async() => {
         const { container, getByLabelText, getAllByLabelText } = render(<SolidInputManager {...defaultProps} />);
 
         const firstInput = getByLabelText('Solid input');
@@ -126,5 +126,14 @@ describe('<SolidInputManager/>', () => {
         expect(inputs.length).toEqual(2);
         expect(inputs[0].value).toEqual('1,2,3');
         expect(inputs[1].value).toEqual('1,2,3');
+    });
+
+    it('includes SolidInputs with only first having a disabled remove button initial state', () => {
+        const { container, getByLabelText, getAllByLabelText } = render(<SolidInputManager {...defaultProps} />);
+
+        const firstInput = getByLabelText('Solid input');
+        expect(getByLabelText('Delete item')).toBeDisabled();
+
+        fireEvent.change(firstInput, {target:{value:'1,2,3'}});
     });
 });

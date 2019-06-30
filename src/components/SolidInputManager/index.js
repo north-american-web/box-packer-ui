@@ -121,6 +121,7 @@ export class SolidInputManager extends React.Component {
                 key: key,
                 inputKey: key,
                 isDataValid: this.isDataValid,
+                removeMayBeDisabled: key === this.state.solids.keys().next().value && this.state.solids.size === 1,
                 onDuplicate: this.handleInputDuplicate,
                 onNext: this.handleInputNext,
                 onRemove: () => this.handleInputRemove(key),
