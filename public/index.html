@@ -8,43 +8,34 @@
 
     <title>Box-Packing Tester by North American Web</title>
     <meta name="description" content="This is a tool for testing the Box-Packer API and the box-packing algorithm
-    implementation it exposes." />
+    implementation it exposes."/>
 
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
     <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
 
 </head>
 <body>
-<main class="main-content">
-    <header class="site-header bg-primary">
-        <h1 class="site-header__title">Box-Packing Tester</h1>
-        <h2 class="site-header__subtitle">A project of <a href="https://www.northamericanweb.com">North American Web Company</a></h2>
+<div class="main-layout-wrapper">
+    <div class="main-sidebar">
+        <h1 class="main-sidebar__title">Box-Packing API Tester</h1>
 
-        <noscript>
-            <div class="container grid-lg bg-dark">
-                <div class="text-warning">You need to enable JavaScript to run this app.</div>
-            </div>
-        </noscript>
-    </header>
-
-    <div class="container grid-lg introduction">
-        <h3>What is this?</h3>
         <p>This is a tool for testing the
             <a href="https://github.com/north-american-web/box-packer-api" target="_blank">Box-Packer API</a> and the
-            box-packing algorithm implementation it exposes. To use the tool, enter dimensions and (optionally) a
-            description for each of your items and boxes, and the tool will tell you whether all the items fit into all
-            the boxes.</p>
-    </div>
-    <div id="root"></div>
-</main>
-<footer class="main-footer">
-    <p>Fork <a href="https://github.com/north-american-web/box-packer-ui" target="_blank">this
-        project</a>,
-        the <a href="https://github.com/north-american-web/box-packer-api" target="_blank">Box Packer API</a>, or
-        the <a href="https://github.com/north-american-web/box-packer" target="_blank">Box Packer Composer
-            package</a>
-        on GitHub.</p>
-</footer>
+            box-packing algorithm implementation it exposes. Enter box and item info, and the tool will tell you
+            whether all the items fit into all the boxes.</p>
 
+        <p>Browse the source and read more about this
+            <a href="https://github.com/north-american-web/box-packer-ui" target="_blank">this project</a>,
+            the <a href="https://github.com/north-american-web/box-packer-api" target="_blank">Box Packer API</a>,
+            and the <a href="https://github.com/north-american-web/box-packer" target="_blank">Box Packer Composer
+                package</a>.</p>
+    </div>
+    <main class="main-content">
+        <noscript>
+            <div class="text-warning">You need to enable JavaScript to run this app.</div>
+        </noscript>
+        <div id="root"></div>
+    </main>
+</div>
 </body>
 </html>

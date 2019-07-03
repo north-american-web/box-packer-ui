@@ -1,0 +1,28 @@
+.app-content {
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+}
+
+.panel {
+    border:0;
+}
+
+.panel-title {
+    text-transform:uppercase;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.solid-view__children {
+    margin:0 0 2rem 1rem;
+}
+
+.input-help {
+    font-size:.6rem;
+    margin-bottom:.3rem;
+}
+
+.solid-view__description-icon {
+    padding-right:0.25rem;
+}
