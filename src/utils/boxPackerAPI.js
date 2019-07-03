@@ -1,5 +1,4 @@
 export function attemptPack(request){
-    const {items, boxes} = request;
     const startTime = Date.now();
     let endTime;
     return fetch(process.env.REACT_APP_API_URL, {
@@ -10,9 +9,7 @@ export function attemptPack(request){
             },
             redirect: 'follow',
             referrer: 'boxpackerui',
-            body: JSON.stringify({
-                boxes, items
-            })
+            body: JSON.stringify(request)
         })
         .then((response) => {
             endTime = Date.now(); // Do this here to avoid adding json parsing time
