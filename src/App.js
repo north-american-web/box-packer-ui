@@ -81,8 +81,6 @@ class App extends React.Component {
         apiLoading: false,
     };
 
-    nextFetch;
-
     handleBoxesChange = (data) => this.handleChange('boxes', data);
 
     handleItemsChange = (data) => this.handleChange('items', data);
