@@ -1,7 +1,8 @@
 import React from 'react';
 import 'jest-dom/extend-expect';
-import { render, fireEvent, cleanup, waitForDomChange } from '@testing-library/react';
+import { render, fireEvent, cleanup, wait, waitForDomChange } from '@testing-library/react';
 import SolidInputManager from '../index';
+import {attemptPack} from "../../../utils/boxPackerAPI";
 
 afterEach(cleanup);
 
@@ -112,7 +113,7 @@ describe('<SolidInputManager/>', () => {
     });
 
     it('duplicates field correctly on duplicate button click', async() => {
-        const { container, getByLabelText, getAllByLabelText } = render(<SolidInputManager {...defaultProps} />);
+        const { getByLabelText, getAllByLabelText } = render(<SolidInputManager {...defaultProps} />);
 
         const firstInput = getByLabelText('Solid input');
         fireEvent.change(firstInput, {target:{value:'1,2,3'}});
@@ -120,20 +121,44 @@ describe('<SolidInputManager/>', () => {
         const duplicateButton = getByLabelText('Duplicate item');
         fireEvent.click(duplicateButton);
 
-        //await waitForDomChange(container);
-
+        await wait(() => expect(getAllByLabelText('Solid input')).toHaveLength(2));
         const inputs = getAllByLabelText('Solid input');
-        expect(inputs.length).toEqual(2);
         expect(inputs[0].value).toEqual('1,2,3');
         expect(inputs[1].value).toEqual('1,2,3');
     });
 
-    it('includes SolidInputs with only first having a disabled remove button initial state', () => {
-        const { container, getByLabelText, getAllByLabelText } = render(<SolidInputManager {...defaultProps} />);
+    it('includes SolidInputs with only first having a disabled remove button initial state', async () => {
+        const {getByLabelText} = render(<SolidInputManager {...defaultProps} />);
 
         const firstInput = getByLabelText('Solid input');
         expect(getByLabelText('Delete item')).toBeDisabled();
 
+        setTimeout(() => {
+            fireEvent.change(firstInput, {target:{value:'1,2,3'}});
+        }, 0);
+    });
+
+    it('populates existing empty SolidInput fields before creating a new one', async () => {
+        const { getByLabelText, getAllByLabelText } = render(<SolidInputManager {...defaultProps} />);
+
+        const firstInput = getByLabelText('Solid input');
+        const addButton = getByLabelText('Add solid');
+        const duplicateButton = getByLabelText('Duplicate item');
+
+        // Enter valid value into first SolidInput
         fireEvent.change(firstInput, {target:{value:'1,2,3'}});
+
+        // Click the "Add solid" button to create a new empty SolidInput
+        await wait(() => expect(addButton).toBeEnabled() );
+        fireEvent.click(getByLabelText('Add solid'));
+
+        // Duplicate the first SolidInput
+        await wait(() => expect(getAllByLabelText('Solid input')).toHaveLength(2));
+        fireEvent.click(duplicateButton);
+
+        const inputs = getAllByLabelText('Solid input');
+        expect(getAllByLabelText('Solid input').length).toEqual(2);
+        expect(inputs[0].value).toEqual('1,2,3');
+        expect(inputs[1].value).toEqual('1,2,3');
     });
 });

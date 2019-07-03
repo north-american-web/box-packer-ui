@@ -14,15 +14,16 @@ export function SolidInputManagerView({title, inputs, allowAdd, addClickHandler,
                         onClick={addClickHandler}>+</button>
             )}
         >
+            {inputs}
             <p className="input-help">Enter width, length, height, (optional) description. Omit units.<br/>
                 <em>Example:</em> <code>4.5, 4.2, 1, {exampleItemName && (
                     <span data-testid='example-item-name'>{exampleItemName}</span>
-                ) }</code>
+                )}</code>
             </p>
-            {inputs}
         </Panel>
     )
 }
+
 SolidInputManagerView.propTypes = {
     title: PropTypes.string.isRequired,
     inputs: PropTypes.array.isRequired,
@@ -38,7 +39,7 @@ export class SolidInputManager extends React.Component {
         exampleItemName: PropTypes.string
     };
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -68,13 +69,32 @@ export class SolidInputManager extends React.Component {
         }
     };
 
+    /**
+     * @param key
+     * @param data
+     */
     handleInputDuplicate = (key, data) => {
-        const [newKey] = this.generateNewInputSpecs();
+        const existingKey = this.getLastKeyForDuplicateData(key);
+        const [newKey,] = this.generateNewInputSpecs();
+
         this.setState(({solids}) => {
+            if (existingKey !== undefined) {
+                solids.delete(existingKey);
+            }
             solids.set(key, data);
             solids.set(newKey, Object.assign({}, data));
             return {solids};
+        }, () => {
+            this._onChange();
         });
+    };
+
+    getLastKeyForDuplicateData = (excludeKey) => {
+        for (const [index, value] of this.state.solids.entries()) {
+            if (index !== excludeKey && Object.entries(value).length === 0) {
+                return index;
+            }
+        }
     };
 
     handleInputRemove = (key) => {
@@ -110,7 +130,7 @@ export class SolidInputManager extends React.Component {
 
         return (width > 0 && width < MAX
             && length > 0 && length < MAX
-            && height > 0 && height < MAX )
+            && height > 0 && height < MAX)
     };
 
     render() {
@@ -127,8 +147,8 @@ export class SolidInputManager extends React.Component {
                 onRemove: () => this.handleInputRemove(key),
                 onSubmit: this.handleInputSubmit,
             };
-            if( value.width || value.length || value.height || value.description ){
-                const parts = Object.values(value).filter((entry, key) => !!entry || entry === 0);
+            if (value.width || value.length || value.height || value.description) {
+                const parts = Object.values(value).filter((entry) => !!entry || entry === 0);
                 solidProps.inputValue = parts.join(',');
             }
 
