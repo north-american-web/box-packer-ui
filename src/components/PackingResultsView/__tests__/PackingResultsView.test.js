@@ -8,6 +8,7 @@ afterEach(cleanup);
 describe('<PackingResultsView/>', () => {
     it('renders and displays correctly', () => {
         const props = {
+            apiLoadingTime: 0,
             apiResponse: {
                 success: true,
                 packed: [ {width: 1, length: 2, height: 3}],
@@ -18,8 +19,8 @@ describe('<PackingResultsView/>', () => {
         };
 
         const renderResult = render(<PackingResultsView {...props} />);
-        expect(renderResult.queryByText('The item(s) fit into the box(es)!')).not.toBeNull();
-        expect(renderResult.getByTestId('toast-element')).toHaveClass('toast-success');
+
+        expect(renderResult.getByTestId('loading-time')).toBeInTheDocument();
 
         const titles = renderResult.queryAllByTestId('packing-results-list-view__title');
         expect(titles[0]).toHaveTextContent('Packed boxes');
@@ -37,22 +38,37 @@ describe('<PackingResultsView/>', () => {
 
     it('handles packing failure and empty values correctly', () => {
         const props = {
+            apiLoadingTime: 0,
             apiResponse: {
                 success: false,
                 packed: [],
                 empty: [],
                 leftOverItems: []
             },
-            apiRequest: {label: 'api-requestr'}
+            apiRequest: {label: 'api-request'}
         };
         const renderResult = render(<PackingResultsView {...props} />);
-
-        expect(renderResult.queryByText('The item(s) won\'t fit into the box(es)!')).not.toBeNull();
 
         const contents = renderResult.queryAllByTestId('packing-results-list-view__contents');
         expect(contents[0].children.length).toBe(0);
         expect(contents[1].children.length).toBe(0);
         expect(contents[2].children.length).toBe(0);
-    })
+    });
+
+    it('displays loading time correctly', () => {
+        const props = {
+            apiLoadingTime: 200,
+            apiResponse: {
+                success: false,
+                packed: [],
+                empty: [],
+                leftOverItems: []
+            },
+            apiRequest: {label: 'api-request'}
+        };
+        const {getByTestId} = render(<PackingResultsView {...props} />);
+
+        expect(getByTestId('loading-time')).toContainHTML('200');
+    });
 
 });

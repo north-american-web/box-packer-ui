@@ -1,6 +1,7 @@
 export function attemptPack(request){
     const {items, boxes} = request;
-    console.log(items);
+    const startTime = Date.now();
+    let endTime;
     return fetch(process.env.REACT_APP_API_URL, {
             method: 'POST',
             mode: 'cors',
@@ -13,12 +14,17 @@ export function attemptPack(request){
                 boxes, items
             })
         })
+        .then((response) => {
+            endTime = Date.now(); // Do this here to avoid adding json parsing time
+            return response;
+        })
         .then(response => response.json() )
         .then(response => {
+            const loadingTime = endTime - startTime;
             if( response.message){
                 throw new Error(response.message)
             }
 
-            return { request, response };
-        })
+            return { loadingTime, request, response };
+        });
 }

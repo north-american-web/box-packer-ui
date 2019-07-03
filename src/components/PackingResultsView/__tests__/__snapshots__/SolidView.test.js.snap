@@ -5,6 +5,13 @@ exports[`<SolidView/> renders 1`] = `
   <span
     class="solid-view__description"
   >
+    <span
+      aria-label=""
+      class="solid-view__description-icon"
+      role="img"
+    >
+      📦
+    </span>
     Fake item
   </span>
   <span
@@ -20,6 +27,13 @@ exports[`<SolidView/> renders children when appropriate 1`] = `
   <span
     class="solid-view__description"
   >
+    <span
+      aria-label=""
+      class="solid-view__description-icon"
+      role="img"
+    >
+      📦
+    </span>
     Fake item
   </span>
   <span
@@ -28,12 +42,19 @@ exports[`<SolidView/> renders children when appropriate 1`] = `
     (2x3x4)
   </span>
   <ul
-    class="solid-preview__children"
+    class="solid-view__children"
   >
     <li>
       <span
         class="solid-view__description"
       >
+        <span
+          aria-label=""
+          class="solid-view__description-icon"
+          role="img"
+        >
+          👝
+        </span>
         Item
       </span>
       <span

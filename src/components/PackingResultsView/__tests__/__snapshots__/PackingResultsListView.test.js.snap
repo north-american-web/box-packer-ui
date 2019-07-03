@@ -14,6 +14,13 @@ exports[`<PackingResultsListView/> renders 1`] = `
       <span
         class="solid-view__description"
       >
+        <span
+          aria-label=""
+          class="solid-view__description-icon"
+          role="img"
+        >
+          📦
+        </span>
         Box
       </span>
       <span
@@ -26,6 +33,13 @@ exports[`<PackingResultsListView/> renders 1`] = `
       <span
         class="solid-view__description"
       >
+        <span
+          aria-label=""
+          class="solid-view__description-icon"
+          role="img"
+        >
+          📦
+        </span>
         Box
       </span>
       <span

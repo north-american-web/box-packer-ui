@@ -14,6 +14,7 @@ jest.mock('../utils/boxPackerAPI', () => {
     return {
         attemptPack: jest.fn(() => {
                             return new Promise(resolve => resolve({
+                                loadingTime: 20,
                                 request: {label: 'request-data'},
                                 response: {label: 'response-data'}
                             }));
@@ -45,6 +46,7 @@ describe('<App/>', () => {
             ],
         });
         expect(PackingResultsView).toHaveBeenCalledWith({
+                apiLoadingTime: 20,
                 apiRequest: {label:'request-data'},
                 apiResponse: {label: 'response-data'}
             },
@@ -65,6 +67,7 @@ describe('<App/>', () => {
         });
         expect(PackingResultsView).toHaveBeenCalledWith(
             {
+                apiLoadingTime: 20,
                 apiRequest: {label:'request-data'},
                 apiResponse: {label: 'response-data'}
             },
@@ -111,7 +114,4 @@ describe('<App/>', () => {
         });
         expect(console.warn).toHaveBeenCalled();
     });
-
-
-
 });

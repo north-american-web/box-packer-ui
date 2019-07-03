@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import 'jest-dom/extend-expect';
-import PackingResultsListView from '../index';
+import {PackingResultsListView} from '../index';
 
 afterEach(cleanup);
 
