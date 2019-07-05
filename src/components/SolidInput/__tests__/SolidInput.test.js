@@ -29,10 +29,9 @@ describe('<SolidInput/>', () => {
         />);
 
         const emptySolid = {
-            width: undefined,
-            length: undefined,
-            height: undefined,
-            description: undefined
+            width: null,
+            length: null,
+            height: null
         };
 
         const input = getByLabelText('Solid input');

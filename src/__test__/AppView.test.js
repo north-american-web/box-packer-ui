@@ -61,8 +61,9 @@ describe('<AppView/>', () => {
     });
 
     it('attempts to pass PackingResultsListView the correct props', async () => {
-        const moreProps = {
-            apiLoadingTime: 0,
+        const props = {
+            ...defaultProps,
+            apiLoadingTime: 100,
             apiResponse: {
                 success: true,
                 packed: 'packed',
@@ -71,12 +72,12 @@ describe('<AppView/>', () => {
             },
             apiRequest: {label: 'api-request'},
         };
-        render(<AppView {...defaultProps} {...moreProps} />);
+        render(<AppView {...props} />);
 
         expect(PackingResultsView).toHaveBeenCalledWith({
-            apiLoadingTime: 0,
-            apiRequest: moreProps.apiRequest,
-            apiResponse: moreProps.apiResponse
+            apiLoadingTime: 100,
+            apiRequest: props.apiRequest,
+            apiResponse: props.apiResponse
         }, {});
     });
 
