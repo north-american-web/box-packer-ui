@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function Panel({title, footer, children}){
+export function Panel({title, footer, children}: {title: any, footer?: any, children?: any}){
     return (
         <div className="panel mt-2">
             { title && (
@@ -18,19 +18,19 @@ export function Panel({title, footer, children}){
     )
 }
 
-export function Toast({status, children}){
+export function Toast({status, children}: {status: string, children?: any}){
     return <div data-testid="toast-element" className={`toast toast-${status}`}>{children}</div>
 }
 
-export function Bar({ indicatorClasses, percent }){
+export function Bar({ indicatorClasses, percent }: { indicatorClasses: string, percent: number}){
     return (
         <div className="bar bar-sm">
             <div data-testid='bar-element'
                 className={indicatorClasses}
                 role="progressbar"
                 style={{width: `${percent}%`}}
-                aria-valuenow={percent} aria-valuemin="0"
-                aria-valuemax="100"
+                aria-valuenow={percent} aria-valuemin={0}
+                aria-valuemax={100}
             />
         </div>
     )

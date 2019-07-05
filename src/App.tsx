@@ -1,19 +1,37 @@
-import React from 'react';
+import React, {FormEvent} from 'react';
 import PropTypes from 'prop-types';
-import {attemptPack} from './utils/boxPackerAPI';
+import {attemptPack, PackApiRequest, PackApiResponse} from './utils/boxPackerAPI';
 import './App.css';
+import {SolidInterface} from "./components/Solid";
 import SolidInputManager from "./components/SolidInputManager";
 import {Toast} from "./components/Spectre";
 import PackingResultsView from "./components/PackingResultsView";
+import {EventArgs} from 'react-ga';
 
-export function AppView({onBoxInputsChange, onItemInputsChange, apiIsLoading, apiLoadingTime, apiRequest, apiResponse, error}) {
+export interface AppViewProps {
+    onBoxInputsChange(solids: SolidInterface[]): void;
+    onItemInputsChange(solids: SolidInterface[]): void;
+    apiIsLoading: boolean;
+    apiLoadingTime: number|null;
+    apiRequest: PackApiRequest|null;
+    apiResponse: PackApiResponse|null;
+    error: string|null;
+}
+
+export function AppView({
+                            onBoxInputsChange,
+                            onItemInputsChange,
+                            apiIsLoading,
+                            apiLoadingTime,
+                            apiRequest,
+                            apiResponse,
+                            error}: AppViewProps) {
+
     return (
         <div className="App">
             <div className='app-content'>
                 <div className='input-manager'>
-                    <form data-testid='solid-inputs-form' onSubmit={(e) => {
-                        e.preventDefault()
-                    }}>
+                    <form data-testid='solid-inputs-form' onSubmit={(event) => { event.preventDefault() }}>
                         <div className="columns">
                             <div className="column col-sm-12 col-6">
                                 <SolidInputManager
@@ -43,7 +61,7 @@ export function AppView({onBoxInputsChange, onItemInputsChange, apiIsLoading, ap
                     <Toast status='error'>{error}</Toast>
                 )}
 
-                {!apiIsLoading && apiResponse && (
+                {!apiIsLoading && apiResponse && apiRequest && apiLoadingTime && (
                     <PackingResultsView
                         apiLoadingTime={apiLoadingTime}
                         apiRequest={apiRequest}
@@ -54,7 +72,6 @@ export function AppView({onBoxInputsChange, onItemInputsChange, apiIsLoading, ap
         </div>
     )
 }
-
 AppView.propTypes = {
     onBoxInputsChange: PropTypes.func.isRequired,
     onItemInputsChange: PropTypes.func.isRequired,
@@ -65,7 +82,11 @@ AppView.propTypes = {
     error: PropTypes.any,
 };
 
-class App extends React.Component {
+interface AppProps {
+    onTrackableEvent?: (args: EventArgs) => void;
+}
+
+class App extends React.Component<AppProps> {
     static propTypes = {
         onTrackableEvent: PropTypes.func
     };
@@ -73,19 +94,19 @@ class App extends React.Component {
     state = {
         boxes: [],
         items: [],
-        lastAPILoadingTime: undefined,
-        lastAPIRequest: undefined,
-        lastAPIResponse: undefined,
-        error: false,
+        lastAPILoadingTime: null,
+        lastAPIRequest: null,
+        lastAPIResponse: null,
+        error: null,
         showInstructions: false,
         apiLoading: false,
     };
 
-    handleBoxesChange = (data) => this.handleChange('boxes', data);
+    handleBoxesChange = (data: SolidInterface[]) => this.handleChange('boxes', data);
 
-    handleItemsChange = (data) => this.handleChange('items', data);
+    handleItemsChange = (data: SolidInterface[]) => this.handleChange('items', data);
 
-    handleChange = (inputType, data) => {
+    handleChange = (inputType: string, data: SolidInterface[]) => {
         this.setState({
             [inputType]: data
         }, () => {
@@ -108,7 +129,7 @@ class App extends React.Component {
                     lastAPILoadingTime: data.loadingTime,
                     lastAPIRequest: data.request,
                     lastAPIResponse: data.response,
-                    error: false
+                    error: null
                 });
 
                 this._onTrackableEvent({
@@ -131,7 +152,7 @@ class App extends React.Component {
             });
     };
 
-    _onTrackableEvent = (event) => {
+    _onTrackableEvent = (event: EventArgs) => {
         if (this.props.onTrackableEvent) {
             this.props.onTrackableEvent(event)
         }

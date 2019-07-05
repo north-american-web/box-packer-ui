@@ -1,6 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import {FaTrash, FaCopy} from 'react-icons/fa'
+import {FaTrash, FaCopy} from 'react-icons/fa';
+import {SolidInterface, makeEmptySolid} from "../Solid";
+
+interface SolidInputViewProps {
+    inputKey: string,
+    inputValue: string,
+    isInputInvalid: boolean,
+    removeDisabled: boolean,
+    onInputFieldChange(event: React.ChangeEvent<HTMLInputElement>): void,
+    onInputKeyPress(event: React.KeyboardEvent<HTMLInputElement>): void,
+    onDuplicate(event: React.MouseEvent<HTMLButtonElement>): void,
+    onRemove(event: React.MouseEvent<HTMLButtonElement>): void
+}
 
 export function SolidInputView({ isInputInvalid,
                                    inputKey,
@@ -9,7 +21,7 @@ export function SolidInputView({ isInputInvalid,
                                    inputValue,
                                    onDuplicate,
                                    removeDisabled,
-                                   onRemove }){
+                                   onRemove }: SolidInputViewProps){
     const isError = isInputInvalid && inputValue;
     return (
         <div className="form-group">
@@ -52,7 +64,6 @@ export function SolidInputView({ isInputInvalid,
         </div>
     )
 }
-
 SolidInputView.propTypes = {
     inputKey: PropTypes.string.isRequired,
     isInputInvalid: PropTypes.bool.isRequired,
@@ -64,7 +75,19 @@ SolidInputView.propTypes = {
     onInputFieldChange: PropTypes.func.isRequired,
 };
 
-class SolidInput extends React.Component {
+export interface SolidInputProps {
+    key: string,
+    inputKey: string;
+    inputValue?: string;
+    removeMayBeDisabled: boolean;
+    onDuplicate(key: string, data: SolidInterface): void;
+    isDataValid(solid: SolidInterface): boolean;
+    onNext(): void;
+    onRemove(): void;
+    onSubmit(key: string, data: SolidInterface): void;
+}
+
+class SolidInput extends React.Component<SolidInputProps> {
     static propTypes = {
         inputKey: PropTypes.string.isRequired,
         inputValue: PropTypes.string,
@@ -83,7 +106,7 @@ class SolidInput extends React.Component {
 
     typingTimeout = 0;
 
-    handleInputKeyPress = (event) => {
+    handleInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if( event.key === 'Enter' ){
             event.preventDefault();
             if (this.typingTimeout) {
@@ -98,16 +121,16 @@ class SolidInput extends React.Component {
         }
     };
 
-    handleInputChange = (event) => {
+    handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (this.typingTimeout) {
             clearTimeout(this.typingTimeout)
         }
 
         this.setState({
-            raw: event.target.value
+            raw: event.currentTarget.value
         });
 
-        this.typingTimeout = setTimeout(() => {
+        this.typingTimeout = window.setTimeout(() => {
             this._onSubmit()
         }, 300)
     };
@@ -117,7 +140,7 @@ class SolidInput extends React.Component {
         this.props.onSubmit(this.props.inputKey, solid)
     };
 
-    handleDuplicate = (e) => {
+    handleDuplicate = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (this.typingTimeout) {
             clearTimeout(this.typingTimeout)
@@ -127,7 +150,7 @@ class SolidInput extends React.Component {
         this.props.onDuplicate(this.props.inputKey, solid);
     };
 
-    handleRemove = (e) => {
+    handleRemove = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (this.typingTimeout) {
             clearTimeout(this.typingTimeout)
@@ -141,7 +164,7 @@ class SolidInput extends React.Component {
         })
     };
 
-    getSolidFromCurrentState = () => {
+    getSolidFromCurrentState: () => SolidInterface = () => {
         const rawString = this.state.raw;
 
         const floatPattern = '\\d+(?:\\.\\d+)?';
@@ -153,21 +176,15 @@ class SolidInput extends React.Component {
         const fullPattern = `^(${floatPattern})${separatorPattern}(${floatPattern})${separatorPattern}(${floatPattern})(?:${separatorPattern}(.*))?$`;
         const matched = rawString.match(new RegExp(fullPattern));
 
-        let solid = {
-            width: undefined,
-            length: undefined,
-            height: undefined,
-            description: undefined
-        };
-        if (matched) {
-            // Remember that the first element of `matched` is going to the be whole raw string!
-            const description = matched[4] && matched[4].trim() ? matched[4].trim() : undefined;
-            const [width, length, height] = matched.slice(1, 4).map(value => parseFloat(value.trim()));
-
-            solid = {width, length, height, description}
+        if( !matched ){
+            return makeEmptySolid();
         }
 
-        return solid
+        // Remember that the first element of `matched` is going to the be whole raw string!
+        const description = matched[4] && matched[4].trim() ? matched[4].trim() : undefined;
+        const [width, length, height] = matched.slice(1, 4).map(value => parseFloat(value.trim()));
+
+        return {width, length, height, description}
     };
 
     isValid = () => {

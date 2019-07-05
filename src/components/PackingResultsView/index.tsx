@@ -1,8 +1,16 @@
 import React from 'react'
 import PropTypes from "prop-types";
 import {Panel} from "../Spectre";
+import {SolidInterface, SolidView} from "../Solid";
+import {PackApiRequest, PackApiResponse} from "../../utils/boxPackerAPI";
 
-export const PackingResultsListView = ({ title, solids, fallbackDescription = 'Box' }) => {
+interface PackingResultsListViewProps {
+    title: string;
+    solids: SolidInterface[];
+    fallbackDescription?: string;
+}
+
+export const PackingResultsListView = ({title, solids, fallbackDescription = 'Box'}: PackingResultsListViewProps) => {
     return (
         <>
             <h6 data-testid="packing-results-list-view__title">{title}</h6>
@@ -14,7 +22,7 @@ export const PackingResultsListView = ({ title, solids, fallbackDescription = 'B
                     <ul data-testid="packing-results-list-view__contents">
                         {solids.map((solid, index) => (
                             <li key={index}>
-                                <SolidView fallbackDescription={fallbackDescription} solid={solid} />
+                                <SolidView fallbackDescription={fallbackDescription} solid={solid}/>
                             </li>
                         ))}
                     </ul>
@@ -27,34 +35,13 @@ PackingResultsListView.propTypes = {
     solids: PropTypes.array.isRequired
 };
 
-export const SolidView = ({ solid, fallbackDescription, isChild }) => {
-    const description = solid.description ? solid.description : fallbackDescription;
-    return (
-        <>
-            <span className="solid-view__description">
-                <span role="img" aria-label="" className='solid-view__description-icon'>{ isChild ? '👝' : '📦' }</span>
-                {description}</span>
-            <span className="solid-view__dimensions">({solid.width}x{solid.length}x{solid.height})</span>
-            {solid.hasOwnProperty('contents') && solid.contents.length > 0 && (
-                <ul className="solid-view__children">
-                    {solid.contents.map( (child, index) => (
-                        <li key={index}>
-                            <SolidView fallbackDescription="Item" solid={child} isChild={true} />
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </>
-    )
-};
-SolidView.propTypes = {
-    solid: PropTypes.object.isRequired,
-    fallbackDescription: PropTypes.string.isRequired,
-    children: PropTypes.array,
-    isChild: PropTypes.bool,
-};
+export interface PackingResultsViewProps {
+    apiLoadingTime: number;
+    apiRequest: PackApiRequest;
+    apiResponse: PackApiResponse;
+}
 
-function PackingResultsView({apiLoadingTime, apiRequest, apiResponse}) {
+function PackingResultsView({apiLoadingTime, apiRequest, apiResponse}: PackingResultsViewProps) {
     return (
         <Panel title={(
             <>
