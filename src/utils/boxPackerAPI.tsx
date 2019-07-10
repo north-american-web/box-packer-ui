@@ -24,15 +24,16 @@ export function attemptPack(request: PackApiRequest): Promise<PackAttemptRespons
     if (!apiUrl) {
         throw new Error('process.env.REACT_APP_API_URL is undefined.');
     }
+    //const requestWithMethod = Object.assign({_method: 'GET'}, request);
     return fetch(apiUrl, {
         method: 'POST',
         mode: 'cors',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
         redirect: 'follow',
         referrer: 'boxpackerui',
-        body: JSON.stringify(request)
+        body: JSON.stringify({_method: 'GET', ...request})
     })
         .then((response) => {
             endTime = Date.now(); // Do this here to avoid adding json parsing time

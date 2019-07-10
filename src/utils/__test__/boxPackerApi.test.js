@@ -7,7 +7,13 @@ global.fetch = jest.fn(() => {
 
 describe('boxPackerApi', () => {
     it('calls fetch with the right parameters', () => {
-        const request = {label: 'request-data'};
+        const request = {
+            label: 'request-data'
+        };
+        const actualFetchRequest = {
+            _method: 'GET',
+            ...request
+        };
         const init = {
             method: 'POST',
             mode: 'cors',
@@ -16,8 +22,9 @@ describe('boxPackerApi', () => {
             },
             redirect: 'follow',
             referrer: 'boxpackerui',
-            body: JSON.stringify(request)
+            body: JSON.stringify(actualFetchRequest)
         };
+
 
         const response = attemptPack(request);
 
