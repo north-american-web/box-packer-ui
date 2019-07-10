@@ -1,4 +1,4 @@
-import React, {FormEvent} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {attemptPack, PackApiRequest, PackApiResponse} from './utils/boxPackerAPI';
 import './App.css';
