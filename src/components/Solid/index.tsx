@@ -19,7 +19,7 @@ interface SolidViewProps {
 }
 
 export const SolidView = ({ solid, fallbackDescription, isChild = false }: SolidViewProps) => {
-    const description = solid.description ? solid.description : fallbackDescription;
+    const description = solid.description || fallbackDescription;
     return (
         <>
             <span className="solid-view__description">
