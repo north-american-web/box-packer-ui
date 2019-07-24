@@ -11,8 +11,8 @@ describe('<PackingResultsView/>', () => {
             apiLoadingTime: 0,
             apiResponse: {
                 success: true,
-                packed: [ {width: 1, length: 2, height: 3}],
-                empty: [ {width: 4, length: 5, height: 6}],
+                packed: [ {width: 1, length: 2, height: 3, description: 'Box name'}],
+                empty: [ {width: 4, length: 5, height: 6, description: 'Item name'}],
                 leftOverItems: [{width: 7, length: 8, height: 9}]
             },
             apiRequest: {label: 'api-request'}

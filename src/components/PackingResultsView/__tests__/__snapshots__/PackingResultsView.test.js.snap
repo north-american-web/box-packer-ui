@@ -20,14 +20,16 @@ exports[`<PackingResultsView/> renders and displays correctly 2`] = `
     {
       "width": 1,
       "length": 2,
-      "height": 3
+      "height": 3,
+      "description": "Box name"
     }
   ],
   "empty": [
     {
       "width": 4,
       "length": 5,
-      "height": 6
+      "height": 6,
+      "description": "Item name"
     }
   ],
   "leftOverItems": [
